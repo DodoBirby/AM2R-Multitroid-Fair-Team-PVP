@@ -403,20 +403,6 @@
       "image_index": 0
     },
     {
-      "x": 896,
-      "y": 696,
-      "object_definition": "oLockLobby",
-      "instance_id": 100010,
-      "creation_code": null,
-      "scale_x": 1,
-      "scale_y": 1,
-      "color": 4294967295,
-      "rotation": 0,
-      "pre_create_code": null,
-      "image_speed": 0,
-      "image_index": 0
-    },
-    {
       "x": 0,
       "y": 0,
       "object_definition": "oServer",
@@ -631,20 +617,6 @@
       "y": 0,
       "object_definition": "oSAXMode",
       "instance_id": 100026,
-      "creation_code": null,
-      "scale_x": 1,
-      "scale_y": 1,
-      "color": 4294967295,
-      "rotation": 0,
-      "pre_create_code": null,
-      "image_speed": 0,
-      "image_index": 0
-    },
-    {
-      "x": 1120,
-      "y": 696,
-      "object_definition": "oSAXModeToggle",
-      "instance_id": 100027,
       "creation_code": null,
       "scale_x": 1,
       "scale_y": 1,

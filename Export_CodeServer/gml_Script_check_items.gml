@@ -1,4 +1,4 @@
-var etankCount, i, stankCount, ptankCount, mtankCount, itemCount, h, val;
+var etankCount, i, stankCount, ptankCount, mtankCount, itemCount, h, val, sval;
 etankCount = 0
 for (i = 0; i < array_length_1d(global.itemSamus); i++)
 {
@@ -47,9 +47,13 @@ itemCount = 0
 for (h = 0; h < array_length_1d(global.itemSamus); h++)
 {
     val = global.itemSamus[h]
+    sval = global.itemSAX[h]
     if (val == 1 && h != 1)
         itemCount++
+    if (sval == 1 && h != 1)
+        itemCount++
 }
+itemCount = (itemCount / 2)
 global.damageMult = ((itemCount / 88) * 3)
 if global.experimental
     global.damageMult = ((itemCount / 88) * 5)
