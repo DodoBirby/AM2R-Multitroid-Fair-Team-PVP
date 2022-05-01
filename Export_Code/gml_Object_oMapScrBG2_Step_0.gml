@@ -19,7 +19,7 @@ if (ealpha <= 0 && fadeout)
     room_goto(global.currentroom)
     Unmute_Loops()
 }
-if (global.saxmode && global.enemyNearby)
+if global.enemyNearby
 {
     fadeout = 1
     active = 0

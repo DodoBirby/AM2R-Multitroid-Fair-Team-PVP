@@ -426,7 +426,7 @@ if (global.classicmode == 0 && global.opshowhud)
         draw_background(bgGUIMetOnly, (296 + widescreen_space), 0)
         xoff = 296
     }
-    if (instance_exists(oClient) && global.saxmode)
+    if instance_exists(oClient)
     {
         draw_set_halign(fa_right)
         draw_set_alpha(0.39215686274509803)

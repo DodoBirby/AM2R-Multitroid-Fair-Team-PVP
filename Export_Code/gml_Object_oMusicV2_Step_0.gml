@@ -15,16 +15,16 @@ if instance_exists(oClient)
             arrRoomPrev = arrDraw[18]
             arrSAX = arrDraw[20]
             if (arrSAX && (!global.sax) && room != rm_transition && (arrRoom == room || (arrRoom == global.lastroom && (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen)) || ((arrRoomPrev == room || (arrRoomPrev == global.lastroom && (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen))) && (arrRoom == 6 || arrRoom == 10 || arrRoom == 9 || arrRoom == 11 || arrRoom == 16))))
-                sameRoomSAX = 1
+                sameRoomSAX = 0
         }
     }
 }
 if (global.showHealthIndicators && global.saxmode)
-    chasedBySAX = 1
+    chasedBySAX = 0
 else
     chasedBySAX = 0
 if ((!global.spectator) && global.saxmode && (!global.sax) && (global.showHealthIndicators || global.enemyNearby || global.escapeTimer > 0 || global.inMusSAXRange || sameRoomSAX || chasedBySAX))
-    playingSAX = 1
+    playingSAX = 0
 else
     playingSAX = 0
 if (prevPlayingSAX != playingSAX)

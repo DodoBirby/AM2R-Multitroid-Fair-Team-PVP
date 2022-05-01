@@ -34,7 +34,7 @@ if instance_exists(oClient)
                     mask_index = sMask4
                 if (arrSJBall == 1 && (arrState == SUPERJUMP || arrState == SJSTART || arrState == SJEND || arrState == BRAKING))
                     mask_index = sMask4
-                if (instance_exists(oCharacter) && distance_to_object(oCharacter) <= 500 && arrState == RUNNING && ((abs(arrImage) >= 4 && abs(arrImage) < 4.9) || (abs(arrImage) >= 9 && abs(arrImage) < 9.9)) && arrSAX)
+                if (instance_exists(oCharacter) && distance_to_object(oCharacter) <= 500 && arrState == RUNNING && ((abs(arrImage) >= 4 && abs(arrImage) < 4.9) || (abs(arrImage) >= 9 && abs(arrImage) < 9.9)) && arrSAX && global.saxmode)
                     PlayFootstepSAX(get_floor_material())
                 if (arrSprite == 1915)
                 {
