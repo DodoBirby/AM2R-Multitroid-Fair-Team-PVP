@@ -14,6 +14,22 @@ if (saveenabled == 1 && cansave == 1 && (oCharacter.state == 10 || oCharacter.st
 {
     if (oControl.mod_insanitymode == 1 || global.enemyNearby || global.saveStationCooldown > 0)
         exit
+    global.savexpos = (x + 16)
+    saveenabled = 0
+    with (oCharacter)
+    {
+        state = SAVING
+        savedisplay = 0
+        statetime = 0
+        canrun = 0
+        if (facing == RIGHT)
+            sprite_index = sFrontR
+        if (facing == LEFT)
+            sprite_index = sFrontL
+    }
+    global.start_room = room
+    global.save_x = (x + 16)
+    global.save_y = y
 }
 if (oCharacter.state == 33 && distance_to_point(oCharacter.x, oCharacter.y < 64))
     saveenabled = 0
