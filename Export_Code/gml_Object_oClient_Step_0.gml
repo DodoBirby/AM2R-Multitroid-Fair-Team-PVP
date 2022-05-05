@@ -717,7 +717,7 @@ switch syncedDifficulty
 
 if (oControl.mod_monstersextremecheck != elm)
     oControl.mod_monstersextremecheck = elm
-if ((!global.ingame) || (!global.opshowhud))
+if (((!global.ingame) || (!global.opshowhud)) && instance_exists(oClient))
 {
     lowestPosX = 1000
     lowestPosY = 1000
