@@ -842,76 +842,11 @@ switch type_event
                                 network_send_packet(tempSocket, buffer, buffer_tell(buffer))
                         }
                         else
+                        {
                             g++
-                    }
-                    ds_grid_read(vars, strict_decompress(buffer_read(_buffer, buffer_string)))
-                    clientID = buffer_read(_buffer, buffer_u8)
-                    packetID = buffer_read(_buffer, buffer_u32)
-                    buffer_delete(buffer)
-                    size = 1024
-                    type = buffer_grow
-                    alignment = 1
-                    buffer = buffer_create(size, type, alignment)
-                    buffer_seek(buffer, buffer_seek_start, 0)
-                    buffer_write(buffer, buffer_u8, 1)
-                    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(vars)))
-                    buffer_write(buffer, buffer_u8, clientID)
-                    buffer_write(buffer, buffer_u32, packetID)
-                    bufferSize = buffer_tell(buffer)
-                    buffer_seek(buffer, buffer_seek_start, 0)
-                    buffer_write(buffer, buffer_s32, bufferSize)
-                    buffer_write(buffer, buffer_u8, 1)
-                    buffer_write(buffer, buffer_string, strict_compress(ds_grid_write(vars)))
-                    buffer_write(buffer, buffer_u8, clientID)
-                    buffer_write(buffer, buffer_u32, packetID)
-                    sockets = ds_list_size(playerList)
-                    for (i = 0; i < sockets; i++)
-                    {
-                        if (ds_list_find_value(playerList, i) != socket)
-                        {
-                            if (global.itemSync && global.itemToggleSync)
-                            {
-                                for (i = 0; i < sockets; i++)
-                                {
-                                    for (f = 0; f < ds_list_size(idList); f++)
-                                    {
-                                        arr = ds_list_find_value(idList, f)
-                                        arrID = arr[0, 0]
-                                        arrSocket = arr[0, 1]
-                                        if (arrSocket == ds_list_find_value(playerList, i))
-                                        {
-                                            findID = ds_list_find_index(samusList, arrID)
-                                            if (findID >= 0 && team == 1)
-                                                network_send_packet(ds_list_find_value(playerList, i), buffer, buffer_tell(buffer))
-                                            findID = ds_list_find_index(saxList, arrID)
-                                            if (findID >= 0 && team == 2)
-                                                network_send_packet(ds_list_find_value(playerList, i), buffer, buffer_tell(buffer))
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            size = 1024
-                            type = buffer_grow
-                            alignment = 1
-                            socketBuffer = buffer_create(size, type, alignment)
-                            buffer_seek(socketBuffer, buffer_seek_start, 0)
-                            buffer_write(socketBuffer, buffer_u8, 2)
-                            buffer_write(socketBuffer, buffer_string, strict_compress(ds_grid_write(vars)))
-                            buffer_write(socketBuffer, buffer_u8, clientID)
-                            bufferSize = buffer_tell(socketBuffer)
-                            buffer_seek(socketBuffer, buffer_seek_start, 0)
-                            buffer_write(socketBuffer, buffer_s32, bufferSize)
-                            buffer_write(socketBuffer, buffer_u8, 2)
-                            buffer_write(socketBuffer, buffer_string, strict_compress(ds_grid_write(vars)))
-                            buffer_write(socketBuffer, buffer_u8, clientID)
-                            network_send_packet(ds_list_find_value(playerList, i), socketBuffer, buffer_tell(socketBuffer))
-                            buffer_delete(socketBuffer)
+                            continue
                         }
                     }
-                    break
                 }
                 else
                     break
