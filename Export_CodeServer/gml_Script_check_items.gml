@@ -57,11 +57,11 @@ for (h = 0; h < array_length_1d(global.itemSamus); h++)
         itemCount++
 }
 itemCount = (itemCount / 2)
+if global.freeForAll
+    itemCount = (global.totalItemCount / ds_list_size(playerList))
 global.damageMult = ((itemCount / 88) * 3)
 if global.experimental
     global.damageMult = ((itemCount / 88) * 5)
-if global.freeForAll
-    global.damageMult = (((global.totalItemCount / ds_list_size(playerList)) / 88) * 3)
 etankCount = 0
 for (i = 0; i < array_length_1d(global.itemSAX); i++)
 {
