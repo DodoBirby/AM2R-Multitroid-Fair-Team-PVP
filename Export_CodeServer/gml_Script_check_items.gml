@@ -1,5 +1,8 @@
 var etankCount, i, stankCount, ptankCount, mtankCount, itemCount, h, val, sval;
 etankCount = 0
+global.totalItemCount = 0
+for (i = 0; i < array_length_1d(global.FFAItemCounter); i++)
+    global.totalItemCount += global.FFAItemCounter[i]
 for (i = 0; i < array_length_1d(global.itemSamus); i++)
 {
     if (i == 50 || i == 103 || i == 108 || i == 157 || i == 158 || i == 200 || i == 201 || i == 251 || i == 254 || i == 306)
@@ -57,6 +60,8 @@ itemCount = (itemCount / 2)
 global.damageMult = ((itemCount / 88) * 3)
 if global.experimental
     global.damageMult = ((itemCount / 88) * 5)
+if global.freeForAll
+    global.damageMult = (((global.totalItemCount / ds_list_size(playerList)) / 88) * 3)
 etankCount = 0
 for (i = 0; i < array_length_1d(global.itemSAX); i++)
 {

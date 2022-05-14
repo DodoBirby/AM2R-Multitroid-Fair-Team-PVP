@@ -79,3 +79,6 @@ global.lobbyLocked = 0
 global.damageMult = 0
 global.clientVersion = "V1.9.3"
 global.experimental = 0
+global.freeForAll = 0
+global.totalItemCount = 0
+global.FFAItemCounter[0] = 0
