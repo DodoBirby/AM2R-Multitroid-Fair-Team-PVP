@@ -3721,3 +3721,5 @@ if (ballbounce > 0)
 statetime += 1
 if (state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIP && state != SAVINGSHIPFX)
     global.gametime += 1
+if global.freeForAll
+    global.sax = global.clientID
