@@ -58,6 +58,8 @@ if (global.saxmode && global.sax && global.playerhealth == 1 && (!global.spectat
 }
 if global.spectator
 {
+    global.sax = 0
+    global.reform = 0
     if global.reform
     {
         invincible = 1
@@ -141,10 +143,10 @@ if global.spectator
         {
             sprite_index = sMonitoad
             image_speed = 0.25
-            maxSpectatorLeftSpeed = -4
-            maxSpectatorRightSpeed = 4
-            maxSpectatorUpSpeed = -4
-            maxSpectatorDownSpeed = 4
+            maxSpectatorLeftSpeed = -5
+            maxSpectatorRightSpeed = 5
+            maxSpectatorUpSpeed = -5
+            maxSpectatorDownSpeed = 5
         }
         if global.sax
         {
@@ -163,13 +165,13 @@ if global.spectator
             }
         }
         if (kLeft > 0)
-            xVel -= 0.1
+            xVel = -5
         if (kRight > 0)
-            xVel += 0.1
+            xVel = 5
         if (kUp > 0)
-            yVel -= 0.1
+            yVel = -5
         if (kDown > 0)
-            yVel += 0.1
+            yVel = 5
         if (xVel < maxSpectatorLeftSpeed)
             xVel = maxSpectatorLeftSpeed
         if (xVel > maxSpectatorRightSpeed)
@@ -181,16 +183,16 @@ if global.spectator
         if (kLeft == 0 && kRight == 0)
         {
             if (xVel > 0)
-                xVel -= 0.1
+                xVel = 0
             if (xVel < 0)
-                xVel += 0.1
+                xVel = 0
         }
         if (kUp == 0 && kDown == 0)
         {
             if (yVel > 0)
-                yVel -= 0.1
+                yVel = 0
             if (yVel < 0)
-                yVel += 0.1
+                yVel = 0
         }
         if (!global.enablecontrol)
         {
@@ -3339,31 +3341,6 @@ if (monster_drain > 0)
         else
             global.playerhealth -= (global.mod_monstersdrainGS * 4)
     }
-    if global.sax
-    {
-        if (global.currentsuit == 0 && oControl.mod_monstersextreme == 0)
-            global.playerhealth -= (global.mod_monstersdrainPS * 2)
-        else if (global.currentsuit == 0 && oControl.mod_monstersextreme != 0)
-            global.playerhealth -= (global.mod_monstersdrainPS * 4)
-        if (global.currentsuit == 1 && oControl.mod_monstersextreme == 0)
-            global.playerhealth -= (global.mod_monstersdrainVS * 2)
-        else if (global.currentsuit == 1 && oControl.mod_monstersextreme != 0)
-            global.playerhealth -= (global.mod_monstersdrainVS * 4)
-        if (global.currentsuit == 2 && oControl.mod_monstersextreme == 0)
-        {
-            if (global.item[5] == 0)
-                global.playerhealth -= (global.mod_monstersdrainVS * 2)
-            else
-                global.playerhealth -= (global.mod_monstersdrainGS * 2)
-        }
-        else if (global.currentsuit == 2 && oControl.mod_monstersextreme != 0)
-        {
-            if (global.item[5] == 0)
-                global.playerhealth -= (global.mod_monstersdrainVS * 4)
-            else
-                global.playerhealth -= (global.mod_monstersdrainGS * 4)
-        }
-    }
     if (global.playerhealth <= 0)
     {
         with (oControl)
@@ -3721,5 +3698,5 @@ if (ballbounce > 0)
 statetime += 1
 if (state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIP && state != SAVINGSHIPFX)
     global.gametime += 1
-if global.freeForAll
+if (global.freeForAll && (!global.spectator))
     global.sax = global.clientID

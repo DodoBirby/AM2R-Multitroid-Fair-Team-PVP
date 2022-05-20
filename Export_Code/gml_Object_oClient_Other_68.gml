@@ -453,14 +453,6 @@ switch type_event
                 global.saxmode = saxmode
                 global.experimental = experimental
                 global.freeForAll = freeForAll
-                if (!lobbyLocked)
-                {
-                    if global.spectator
-                    {
-                        global.spectator = 0
-                        global.spectatorIndex = -1
-                    }
-                }
                 global.lobbyLocked = lobbyLocked
                 global.samCount = samCount
                 break
