@@ -79,6 +79,6 @@ syncedELM = 0
 posMapModified = 0
 global.lobbyLocked = 0
 global.damageMult = 0
-global.clientVersion = "V1.9.4"
+global.clientVersion = "V1.9.5"
 global.experimental = 0
 global.freeForAll = 0
