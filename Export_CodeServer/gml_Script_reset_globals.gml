@@ -62,4 +62,7 @@ syncedDifficulty = 1
 syncedELM = 0
 global.seed = 0
 global.rando = 1
+global.totalItemCount = 0
+for (i = 0; i < array_length_1d(global.FFAItemCounter); i++)
+    global.FFAItemCounter[i] = 0
 scr_default_global_items()

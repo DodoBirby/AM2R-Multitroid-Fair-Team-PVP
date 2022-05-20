@@ -68,6 +68,8 @@ alarm[5] = 3600
 alarm[9] = 60
 alarm[10] = 600
 alarm[11] = 60
+global.totalItemCount = 0
+global.FFAItemCounter[0] = 0
 reset_globals()
 global.slot = 1
 slotStr = string(global.slot)
@@ -80,5 +82,3 @@ global.damageMult = 0
 global.clientVersion = "V1.9.4"
 global.experimental = 0
 global.freeForAll = 0
-global.totalItemCount = 0
-global.FFAItemCounter[0] = 0
