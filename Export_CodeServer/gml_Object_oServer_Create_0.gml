@@ -5,7 +5,7 @@ randomize()
 strict_init("dictionary.json")
 canChange = 1
 type = buffer_fixed
-if (!file_exists((working_directory + "\settings.ini")))
+if (!(file_exists((working_directory + "\settings.ini"))))
 {
     ini_open((working_directory + "\settings.ini"))
     ini_write_real("Settings", "port", 64198)
@@ -18,7 +18,7 @@ port = ini_read_real("Settings", "port", 64198)
 maxClients = ini_read_real("Settings", "maxplayers", 16)
 password = ini_read_string("Settings", "moderatorpass", string(random_get_seed()))
 ini_close()
-if (!file_exists((working_directory + "\blacklist.txt")))
+if (!(file_exists((working_directory + "\blacklist.txt"))))
 {
     blacklist = file_text_open_write((working_directory + "\blacklist.txt"))
     file_text_close(blacklist)
@@ -79,6 +79,6 @@ syncedELM = 0
 posMapModified = 0
 global.lobbyLocked = 0
 global.damageMult = 0
-global.clientVersion = "V1.9.5"
+global.clientVersion = "FV1.5.0"
 global.experimental = 0
 global.freeForAll = 0
