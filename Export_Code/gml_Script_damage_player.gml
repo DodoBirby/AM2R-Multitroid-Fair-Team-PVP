@@ -55,7 +55,7 @@ if (global.playerhealth > 0)
         currState = state
         if (((state != HURT && invincible == 0) || (argument4 == 1 && statetime > 2)) && (!global.ignoreKnockback))
         {
-            if (canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
+            if (canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR && state != WATERJET)
             {
                 if (state == BALL || state == AIRBALL || state == SPIDERBALL || sjball == 1)
                 {
