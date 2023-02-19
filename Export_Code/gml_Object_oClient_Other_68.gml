@@ -1591,7 +1591,7 @@ switch type_event
                 playerX = buffer_read(_buffer, buffer_s16)
                 playerY = buffer_read(_buffer, buffer_s16)
                 sax = buffer_read(_buffer, buffer_s8)
-                if (room == sentRoom && (!sax))
+                if (room == sentRoom)
                 {
                     seq = instance_create(playerX, playerY, oDeathSequenceMulti)
                     seq.facing = mirror
