@@ -38,8 +38,6 @@ if instance_exists(oClient)
                         mask_index = sMask4
                     if (arrSJBall == 1 && (arrState == SUPERJUMP || arrState == SJSTART || arrState == SJEND || arrState == BRAKING))
                         mask_index = sMask4
-                    if (instance_exists(oCharacter) && distance_to_object(oCharacter) <= 500 && arrState == RUNNING && ((abs(arrImage) >= 4 && abs(arrImage) < 4.9) || (abs(arrImage) >= 9 && abs(arrImage) < 9.9)) && arrSAX)
-                        PlayFootstepSAX(get_floor_material())
                     if (arrSprite == 1915)
                     {
                         if (place_meeting(x, y, oCharacter) && arrInvincible == 0 && (!global.spectator))

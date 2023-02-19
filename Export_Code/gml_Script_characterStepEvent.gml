@@ -3604,10 +3604,7 @@ if (footstep == 0)
     {
         if ((abs(image_index) >= 4 && abs(image_index) < 4.9) || (abs(image_index) >= 9 && abs(image_index) < 9.9))
         {
-            if (!global.sax)
-                PlayFootstep(get_floor_material())
-            else
-                PlayFootstepSAX(get_floor_material())
+            PlayFootstep(get_floor_material())
             if (inwater == 0 && waterfall == 0 && monster_drain == 0)
                 footstep = 5
             else
