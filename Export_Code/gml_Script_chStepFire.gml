@@ -56,21 +56,9 @@ if (kFire && kFirePushedSteps == 1 && (state == 23 || state == 24 || state == 27
     }
     if (((global.opmslstyle == 0 && armmsl == 1) || (global.opmslstyle == 1 && global.currentweapon == 3)) && global.pbombs > 0 && instance_number(oQueenFinalExplosion) == 0 && state != GRABBEDQUEENMORPH && (!((state == GRABBEDQUEENBELLY && distance_to_point((oQueenFront.x + 81), y) > 4))))
     {
-        if global.saxmode
+        if (global.pbombCooldown == 600)
         {
-            if (global.pbombCooldown == 600)
-            {
-                global.pbombCooldown = 0
-                bmb = instance_create(x, (y - 5), oPBomb)
-                if (state == GRABBEDQUEENBELLY)
-                    bmb.special = 1
-                global.pbombs -= 1
-                if (global.currentweapon == 3 && global.pbombs == 0)
-                    global.currentweapon = 0
-            }
-        }
-        else if (instance_number(oPBomb) == 0 && instance_number(oPBombExpl) == 0)
-        {
+            global.pbombCooldown = 0
             bmb = instance_create(x, (y - 5), oPBomb)
             if (state == GRABBEDQUEENBELLY)
                 bmb.special = 1

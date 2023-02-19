@@ -1,5 +1,4 @@
-if global.saxmode
-    global.event[205] = 1
+global.event[205] = 1
 if (global.metdead[myid] > 0)
 {
     state = 3

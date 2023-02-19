@@ -49,8 +49,7 @@ if (state == 1)
         global.offsety = 0
         oCharacter.x = 0
         oCharacter.y = 0
-        if global.saxmode
-            global.warpPipeCooldown = 360
+        global.warpPipeCooldown = 360
         room_change(targetroom, 0)
         Mute_Loops()
     }

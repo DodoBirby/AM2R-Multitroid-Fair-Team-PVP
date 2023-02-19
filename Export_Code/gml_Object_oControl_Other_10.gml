@@ -1,4 +1,4 @@
-if (global.saxmode && global.enemyNearby)
+if global.enemyNearby
 {
     if (global.sax || (!global.spectator))
         exit

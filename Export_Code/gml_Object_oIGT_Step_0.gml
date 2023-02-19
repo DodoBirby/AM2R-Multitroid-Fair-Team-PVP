@@ -23,20 +23,15 @@ if surface_exists(igt_surface)
         yoff = 27
         draw_cool_text(4, yoff, ("ping: " + string(global.ping)), c_black, c_white, c_gray, 1)
         yoff += 11
-        if global.saxmode
+        metcount = 0
+        for (i = 0; i <= 40; i++)
         {
-            metcount = 0
-            for (i = 0; i <= 40; i++)
-            {
-                if (global.metdead[i] == 1)
-                    metcount += 1
-            }
-            if ((global.MetCount - metcount) > 0)
-            {
-                draw_cool_text(4, yoff, ("Metroids to A6: " + string((global.MetCount - metcount))), c_black, c_white, c_gray, 1)
-                yoff += 11
-            }
-            draw_cool_text(4, yoff, ("X-Power: " + string(global.damageMult)), c_black, c_aqua, make_colour_rgb(79, 146, 255), 1)
+            if (global.metdead[i] == 1)
+                metcount += 1
+        }
+        if ((global.MetCount - metcount) > 0)
+        {
+            draw_cool_text(4, yoff, ("Metroids to A6: " + string((global.MetCount - metcount))), c_black, c_white, c_gray, 1)
             yoff += 11
         }
         if (global.saveStationCooldown > 0)

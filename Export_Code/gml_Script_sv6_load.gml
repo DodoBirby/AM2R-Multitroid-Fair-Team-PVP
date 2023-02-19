@@ -89,12 +89,6 @@ else
     global.roomsSinceLastSpawn = 0
     global.ingame = 1
     global.newgame = 0
-    if (global.saxmode && global.sax)
-    {
-        global.start_room = 376
-        global.save_x = 144
-        global.save_y = 176
-    }
     room_change(global.start_room, 1)
 }
 if instance_exists(oClient)

@@ -385,12 +385,9 @@ if (global.classicmode == 0 && global.opshowhud)
             else
                 draw_sprite(sGUIPBomb, 0, (xoff + 1), 4)
         }
-        if global.saxmode
-        {
-            draw_sprite(sPBombCooldownOverlay, 0, (xoff + 2), 17)
-            scaleMult = (global.pbombCooldown / 600)
-            draw_sprite_ext(sPBombCooldownFull, 0, (xoff + 2), 17, scaleMult, 1, 0, c_white, 1)
-        }
+        draw_sprite(sPBombCooldownOverlay, 0, (xoff + 2), 17)
+        scaleMult = (global.pbombCooldown / 600)
+        draw_sprite_ext(sPBombCooldownFull, 0, (xoff + 2), 17, scaleMult, 1, 0, c_white, 1)
     }
     if (instance_exists(oClient) && (!global.saxmode))
     {
@@ -426,7 +423,7 @@ if (global.classicmode == 0 && global.opshowhud)
         draw_background(bgGUIMetOnly, (296 + widescreen_space), 0)
         xoff = 296
     }
-    if (instance_exists(oClient) && global.saxmode)
+    if instance_exists(oClient)
     {
         draw_set_halign(fa_right)
         draw_set_alpha(0.39215686274509803)
@@ -516,11 +513,6 @@ if (global.classicmode == 0 && global.opshowhud)
     }
     if global.ophudshowmetrcount
     {
-        if global.saxmode
-        {
-            draw_background(bgSamCount, ((xoff - 20) + widescreen_space), 4)
-            draw_text(((xoff - 18) + widescreen_space), 21, to_string_lz(global.samCount))
-        }
         if (global.ophudshowmetrcount == 1)
         {
             draw_background(bgGUIMetCountBG1, ((xoff + 4) + widescreen_space), 4)

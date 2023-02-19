@@ -26,17 +26,13 @@ global.ingame = 0
 global.darkness = 0
 global.gotolog = -1
 global.transitiontype = 3
-if (global.saxmode && (!global.sax))
-    global.spectatorOption = 1
+global.spectatorOption = 1
 if (global.spectatorOption && global.lobbyLocked)
 {
     global.spectator = 1
     global.spectatorIndex = -1
 }
-if global.saxmode
-{
-    global.mapposx = 2
-    global.mapposy = 2
-}
+global.mapposx = 2
+global.mapposy = 2
 event_user(3)
 room_goto(rm_death)

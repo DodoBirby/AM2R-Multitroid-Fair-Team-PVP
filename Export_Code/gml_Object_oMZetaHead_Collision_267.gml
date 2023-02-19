@@ -6,8 +6,6 @@ else
 if (other.invincible == 0)
 {
     damageToDeal = oMZeta.damage
-    if global.sax
-        damageToDeal = (damageToDeal * 2)
     oMZeta.damagedealt += damageToDeal
     if (oMZeta.blur == 1)
     {
