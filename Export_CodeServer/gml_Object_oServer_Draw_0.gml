@@ -32,14 +32,14 @@ switch syncedELM
 draw_set_font(font0)
 draw_text(5, 5, ("AM2R Server: " + string(str)))
 draw_text(5, 35, ((("Connected Clients: " + string(ds_list_size(playerList))) + "/") + string(maxClients)))
-draw_text(5, 135, ("Metroids Required for A6: " + string(global.MetCount)))
-draw_text(5, 195, ("Total Remaining Metroids: " + string(global.monstersleft)))
-draw_text(5, 225, ("Seed: " + string(global.seed)))
-draw_text(5, 255, ("Difficulty: " + string(diffStr)))
-draw_text(5, 285, ("Extreme Lab Metroids: " + string(ELMStr)))
+draw_text(5, 65, ("Metroids Required for A6: " + string(global.MetCount)))
+draw_text(5, 95, ("Total Remaining Metroids: " + string(global.monstersleft)))
+draw_text(5, 125, ("Seed: " + string(global.seed)))
+draw_text(5, 155, ("Difficulty: " + string(diffStr)))
+draw_text(5, 185, ("Extreme Lab Metroids: " + string(ELMStr)))
 if (ds_list_size(idList) > 0)
 {
-    draw_text(5, 315, "Players:")
+    draw_text(5, 215, "Players:")
     for (i = 0; i < ds_list_size(idList); i++)
     {
         arrList = ds_list_find_value(idList, i)
@@ -98,7 +98,7 @@ if (ds_list_size(idList) > 0)
                     break
             }
 
-            draw_text_color(5, (317 + ((i + 1) * 30)), arrList[0, 2], color, color, color, color, 1)
+            draw_text_color(5, (217 + ((i + 1) * 30)), arrList[0, 2], color, color, color, color, 1)
         }
     }
 }
