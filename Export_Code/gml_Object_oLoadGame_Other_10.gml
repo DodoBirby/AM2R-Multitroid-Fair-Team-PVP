@@ -2,11 +2,6 @@ if (global.lobbyLocked && global.lastroom != 2)
 {
     global.spectator = 1
     global.spectatorIndex = -1
-    if global.sax
-    {
-        global.spectator = 0
-        global.spectatorIndex = -1
-    }
     global.mosaic = 0
 }
 global.beingAbsorbed = 0

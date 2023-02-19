@@ -389,28 +389,6 @@ if (global.classicmode == 0 && global.opshowhud)
         scaleMult = (global.pbombCooldown / 600)
         draw_sprite_ext(sPBombCooldownFull, 0, (xoff + 2), 17, scaleMult, 1, 0, c_white, 1)
     }
-    if (instance_exists(oClient) && (!global.saxmode))
-    {
-        if oClient.connected
-        {
-            if (ds_list_size(global.idList) > 1 && ds_list_size(global.idList) <= 6)
-            {
-                for (f = 0; f < ds_list_size(global.idList); f++)
-                {
-                    arrList = ds_list_find_value(global.idList, f)
-                    ID = arrList[0, 0]
-                    _x = (10 * floor((f / 2)))
-                    _y = (10 * (f % 2))
-                    if (ID == global.clientID)
-                        draw_sprite(oControl.MultitroidIcon, (ID - 1), ((240 - _x) + widescreen_space), (5 + _y))
-                    else
-                        draw_sprite(oControl.MultitroidIconDark, (ID - 1), ((240 - _x) + widescreen_space), (5 + _y))
-                }
-            }
-            else if (ds_list_size(global.idList) == 1 || ds_list_size(global.idList) == 0)
-                draw_sprite(oControl.MultitroidIcon, clamp((global.clientID - 1), 0, 8), (240 + widescreen_space), 5)
-        }
-    }
     if (global.ophudshowmap && global.ophudshowmetrcount)
     {
         draw_background(bgGUIMap, (250 + widescreen_space), 0)
@@ -538,7 +516,7 @@ if (global.classicmode == 0 && global.opshowhud)
                 spectator = arrData[5]
                 playerState = arrData[6]
                 combatState = arrData[7]
-                if (global.spectator && (!global.sax))
+                if global.spectator
                 {
                     if (!sax)
                     {

@@ -293,7 +293,7 @@ if instance_exists(oMapCursor)
             arrY = arrMapIcon[2]
             sax = arrMapIcon[3]
             spectator = arrMapIcon[5]
-            if (global.spectator && (!global.sax))
+            if global.spectator
             {
                 if (!sax)
                 {
