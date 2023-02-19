@@ -3648,3 +3648,5 @@ if (!global.saxmode)
 }
 else if (global.damageMult == 2)
     global.gametime += 1
+if global.freeForAll
+    global.sax = global.clientID

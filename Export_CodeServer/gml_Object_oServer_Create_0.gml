@@ -85,3 +85,4 @@ global.doomtime = 0
 global.doomenabled = 0
 global.doomstarted = 0
 global.juggActive = 0
+global.totalItemCount = 0

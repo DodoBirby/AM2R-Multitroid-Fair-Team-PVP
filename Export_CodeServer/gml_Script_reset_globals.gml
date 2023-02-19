@@ -63,6 +63,7 @@ global.gametime = 0
 global.doomenabled = 0
 global.doomstarted = 0
 global.juggActive = 0
+global.totalItemCount = 0
 syncedDifficulty = 1
 syncedELM = 0
 global.seed = 0

@@ -479,5 +479,6 @@ global.experimental = 0
 global.saveStationCooldown = 0
 global.hitBySuper = 0
 global.MetCount = 41
+global.freeForAll = 0
 reset_map()
 load_character_vars()

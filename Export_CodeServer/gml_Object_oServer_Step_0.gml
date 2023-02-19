@@ -90,4 +90,4 @@ if (ds_list_size(playerList) > 0 && ds_list_size(resetList) > 0)
 }
 if (!global.lobbyLocked)
     ds_list_clear(deadList)
-global.damageMult = 2.5
+global.damageMult = (3 * (global.totalItemCount / 88))

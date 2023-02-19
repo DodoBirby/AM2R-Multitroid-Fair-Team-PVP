@@ -475,6 +475,7 @@ switch type_event
                 damageMult = real(damageMultStr)
                 experimental = buffer_read(_buffer, buffer_u8)
                 global.MetCount = buffer_read(_buffer, buffer_u8)
+                global.freeForAll = buffer_read(_buffer, buffer_u8)
                 global.damageMult = damageMult
                 global.saxmode = saxmode
                 global.experimental = experimental
