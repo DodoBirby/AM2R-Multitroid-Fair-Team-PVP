@@ -1,11 +1,15 @@
 if (special == 0)
 {
-    instance_create(x, y, oPBombExpl)
     expl = instance_create(x, y, oPBombExpl)
+    expl.myid = 0
+    expl = instance_create(x, y, oPBombExpl)
+    expl.myid = 0
     expl.image_angle = 90
     expl = instance_create(x, y, oPBombExpl)
+    expl.myid = 0
     expl.image_angle = 180
     expl = instance_create(x, y, oPBombExpl)
+    expl.myid = 0
     expl.image_angle = 270
     sfx_play(sndPBombExpl)
 }

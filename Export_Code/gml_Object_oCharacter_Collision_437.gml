@@ -1,4 +1,4 @@
-if (other.sax != global.sax && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
+if (other.sax != global.sax && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR && other.myid != 0)
 {
     pbomb_drain = 2
     if (!global.spectator)
