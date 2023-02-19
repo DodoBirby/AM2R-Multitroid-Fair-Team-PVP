@@ -32,10 +32,6 @@ for (i = 0; i < sockets; i++)
     network_send_packet(ds_list_find_value(playerList, i), buffer, buffer_tell(buffer))
 getGravity = 0
 freezeOff = 0
-if global.itemSamus[9]
-    getGravity = 1
-if global.itemSamus[5]
-    freezeOff = 1
 buffer_delete(buffer)
 size = 1024
 type = buffer_grow
