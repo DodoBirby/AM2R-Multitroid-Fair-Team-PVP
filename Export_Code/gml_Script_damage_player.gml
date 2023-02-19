@@ -2,23 +2,6 @@ var damage_taken, currState, experimentalExtraSAXDamageMultiplier, metcount, i, 
 if global.spectator
     exit
 serverdamageMult = global.damageMult
-if global.multiDamageCollision
-{
-    metcount = 0
-    for (i = 0; i <= 40; i++)
-    {
-        if (global.metdead[i] == 1)
-            metcount += 1
-    }
-    if global.sax
-    {
-        global.damageMult = (1 + (1.5 * (metcount / global.MetCount)))
-        if (global.damageMult > 2.5)
-            global.damageMult = 2.5
-        if (global.currentsuit == 2 && global.juggActive)
-            global.ignoreKnockback = 1
-    }
-}
 experimentalExtraSAXDamageMultiplier = 1
 damage_taken = 0
 if (global.currentsuit == 0 || argument3 == 1)
