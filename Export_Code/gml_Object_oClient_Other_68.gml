@@ -1,4 +1,4 @@
-var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, freeForAll;
+var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, playerState, combatState, freezeOff, checkDir, clientSBall;
 disconnectTimer = 900
 if (!global.acceptPacket)
     exit
@@ -96,6 +96,7 @@ switch type_event
                 clientMosaic = buffer_read(_buffer, buffer_u8)
                 clientReform = buffer_read(_buffer, buffer_u8)
                 clientVisible = buffer_read(_buffer, buffer_u8)
+                clientSBall = buffer_read(_buffer, buffer_u8)
                 if (global.clientID != clientID)
                 {
                     if (findsocket < 0)
@@ -134,6 +135,7 @@ switch type_event
                             arr[28] = clientMosaic
                             arr[29] = clientReform
                             arr[30] = clientVisible
+                            arr[31] = clientSBall
                             ds_list_add(roomListData, arr)
                         }
                     }
@@ -170,6 +172,7 @@ switch type_event
                         arr[28] = clientMosaic
                         arr[29] = clientReform
                         arr[30] = clientVisible
+                        arr[31] = clientSBall
                         indexValue = ds_list_find_value(roomList, findsocket)
                         for (i = 0; i < ds_list_size(roomListData); i++)
                         {
@@ -199,6 +202,8 @@ switch type_event
                 clientMapY = buffer_read(_buffer, buffer_s16)
                 sax = buffer_read(_buffer, buffer_u8)
                 spectator = buffer_read(_buffer, buffer_u8)
+                playerState = buffer_read(_buffer, buffer_u8)
+                combatState = buffer_read(_buffer, buffer_bool)
                 findsocket = ds_list_find_index(roomList, clientID)
                 if (clientRoom == room && global.clientID != clientID)
                     sameRoom = 1
@@ -243,6 +248,8 @@ switch type_event
                             arrPosData[3] = sax
                             arrPosData[4] = clientRoom
                             arrPosData[5] = spectator
+                            arrPosData[6] = playerState
+                            arrPosData[7] = combatState
                             for (v = 0; v < ds_list_size(posData); v++)
                             {
                                 arr = ds_list_find_value(posData, v)
@@ -262,6 +269,8 @@ switch type_event
                             arrPosData[3] = sax
                             arrPosData[4] = clientRoom
                             arrPosData[5] = spectator
+                            arrPosData[6] = playerState
+                            arrPosData[7] = combatState
                             ds_list_add(posData, arrPosData)
                             if (instance_exists(oMapCursor) && surface_exists(oSS_Control.s_map))
                                 surface_free(oSS_Control.s_map)
@@ -300,7 +309,8 @@ switch type_event
                 break
             case 106:
                 load_character_vars()
-                reset_dmap()
+                if (!global.saxmode)
+                    reset_dmap()
                 global.itemPrev = array_clone(global.item)
                 global.metdeadPrev = array_clone(global.metdead)
                 global.eventPrev = array_clone(global.event)
@@ -358,10 +368,12 @@ switch type_event
                 global.showHealthIndicatorsTimer = 900
                 break
             case 110:
+                global.showHealthIndicatorsTimer = 900
                 checkBeam = buffer_read(_buffer, buffer_u8)
                 checkMissile = buffer_read(_buffer, buffer_u8)
                 checkDamage = buffer_read(_buffer, buffer_u8)
                 checkFreeze = buffer_read(_buffer, buffer_u8)
+                checkDir = buffer_read(_buffer, buffer_u8)
                 if (checkMissile && global.playerFreeze > 151)
                     break
                 else
@@ -372,6 +384,8 @@ switch type_event
                         {
                             damageDir = -1
                             knockbackY = -3
+                            if (checkDir > 90 && checkDir < 270)
+                                damageDir = 1
                             global.multiDamageCollision = 1
                             if checkBeam
                             {
@@ -380,13 +394,18 @@ switch type_event
                             }
                             if checkMissile
                                 otherOBJ = 440
+                            if (checkMissile && checkDamage == 100)
+                                global.hitBySuper = 1
                             if (checkMissile && global.playerFreeze > 0 && global.playerFreeze <= 151 && (!global.frozenNormally))
-                                global.playerFreeze = 1
+                            {
+                                if ((!checkFreeze) || checkDamage == 100)
+                                    global.playerFreeze = 1
+                            }
                             if global.frozenNormally
                                 show_debug_message("normal freeze")
                             if (checkFreeze && global.playerFreeze == 0 && (!global.frozenNormally))
                             {
-                                if (checkBeam && (!((global.currentsuit == 2 && global.item[5] == 1))) && global.playerFreeze == 0 && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
+                                if (checkBeam && (!global.freezeDisabled) && global.playerFreeze == 0 && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
                                 {
                                     global.playerFreeze = 120
                                     damageDir = 0
@@ -400,7 +419,7 @@ switch type_event
                                         kDown = 0
                                     }
                                 }
-                                if (checkMissile && (checkDamage == 10 || checkDamage == 20) && (!((global.currentsuit == 2 && global.item[5] == 1))) && global.playerFreeze == 0 && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
+                                if (checkMissile && (checkDamage == 10 || checkDamage == 20) && (!global.freezeDisabled) && global.playerFreeze == 0 && invincible == 0 && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
                                 {
                                     global.playerFreeze = 120
                                     damageDir = 0
@@ -417,6 +436,11 @@ switch type_event
                             }
                             if (checkDamage == 100)
                                 checkDamage = 50
+                            if checkMissile
+                            {
+                                if (global.playerFreeze > 0)
+                                    checkDamage *= 0.8
+                            }
                             if ((!canbehit) || state == IDLE || (state == SAVING && state == SAVINGFX) || state == SAVINGSHIPFX || state == SAVINGSHIP || state == ELEVATOR || state == GFELEVATOR)
                                 checkDamage = 0
                             if ((!global.frozenNormally) && canbehit && state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIPFX && state != SAVINGSHIP && state != ELEVATOR && state != GFELEVATOR)
@@ -442,17 +466,28 @@ switch type_event
                     global.sax = 1
                 break
             case 113:
+                time = buffer_read(_buffer, buffer_s32)
                 saxmode = buffer_read(_buffer, buffer_u8)
                 lobbyLocked = buffer_read(_buffer, buffer_u8)
                 samCount = buffer_read(_buffer, buffer_u8)
                 damageMultStr = buffer_read(_buffer, buffer_string)
                 damageMult = real(damageMultStr)
                 experimental = buffer_read(_buffer, buffer_u8)
-                freeForAll = buffer_read(_buffer, buffer_u8)
+                global.juggActive = buffer_read(_buffer, buffer_u8)
+                global.MetCount = buffer_read(_buffer, buffer_u8)
                 global.damageMult = damageMult
                 global.saxmode = saxmode
                 global.experimental = experimental
-                global.freeForAll = freeForAll
+                if global.saxmode
+                    global.gametime = time
+                if (!lobbyLocked)
+                {
+                    if global.spectator
+                    {
+                        global.spectator = 0
+                        global.spectatorIndex = -1
+                    }
+                }
                 global.lobbyLocked = lobbyLocked
                 global.samCount = samCount
                 break
@@ -468,8 +503,10 @@ switch type_event
                 break
             case 115:
                 getGravity = buffer_read(_buffer, buffer_u8)
+                freezeOff = buffer_read(_buffer, buffer_u8)
                 if (getGravity && global.saxmode && global.sax && (!global.item[9]) && instance_number(oCoreXGravity) == 0 && string_count("rm_a", room_get_name(room)))
                     instance_create(irandom_range(0, room_width), -100, oCoreXGravity)
+                global.freezeDisabled = freezeOff
                 break
             case 116:
                 receivedPasswordHash = buffer_read(_buffer, buffer_string)

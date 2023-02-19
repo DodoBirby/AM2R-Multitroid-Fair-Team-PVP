@@ -103,9 +103,8 @@ else if (followplayer && myid != 0)
             findHatchlingID = ds_list_find_index(global.hatchlingList, myid)
             if (findHatchlingID >= 0)
             {
-                if (ds_list_size(oClient.roomListData) > 0)
+                if (ds_list_size(oClient.roomListData) > 0 && (!global.saxmode))
                 {
-                    instance_destroy()
                     for (h = 0; h < ds_list_size(oClient.roomListData); h++)
                     {
                         arrList = ds_list_find_value(oClient.roomListData, h)

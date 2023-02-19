@@ -1,4 +1,4 @@
-var compl;
+var compl, metcount, i, yoff;
 if (!oControl.mod_IGT)
     instance_destroy()
 if (surface_exists(igt_surface) && surface_get_width(igt_surface) < (320 + oControl.widescreen_space))
@@ -19,7 +19,29 @@ if surface_exists(igt_surface)
     draw_set_color(c_white)
     draw_cool_text(4, 16, steps_to_time2(global.gametime), c_black, c_white, c_gray, 1)
     if instance_exists(oClient)
-        draw_cool_text(4, 27, ("ping: " + string(global.ping)), c_black, c_white, c_gray, 1)
+    {
+        yoff = 27
+        draw_cool_text(4, yoff, ("ping: " + string(global.ping)), c_black, c_white, c_gray, 1)
+        yoff += 11
+        if global.saxmode
+        {
+            metcount = 0
+            for (i = 0; i <= 40; i++)
+            {
+                if (global.metdead[i] == 1)
+                    metcount += 1
+            }
+            if ((global.MetCount - metcount) > 0)
+            {
+                draw_cool_text(4, yoff, ("Metroids to A6: " + string((global.MetCount - metcount))), c_black, c_white, c_gray, 1)
+                yoff += 11
+            }
+            draw_cool_text(4, yoff, ("X-Power: " + string(global.damageMult)), c_black, c_aqua, make_colour_rgb(79, 146, 255), 1)
+            yoff += 11
+        }
+        if (global.saveStationCooldown > 0)
+            draw_cool_text(4, yoff, ("Save Cooldown: " + string((global.saveStationCooldown / 60))), c_black, c_white, c_gray, 1)
+    }
     if (oControl.mod_collecteditemsmap == 1)
     {
         draw_set_halign(fa_right)

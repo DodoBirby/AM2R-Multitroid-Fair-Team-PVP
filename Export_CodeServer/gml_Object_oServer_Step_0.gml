@@ -1,4 +1,4 @@
-var sockets, size, type, alignment, bufferSize, i, time, a, match, b, arrList, evnt;
+var sockets, size, type, alignment, bufferSize, i, time, a, match, b, arrList, evnt, maxtime, doomframes, incrementedtime;
 if (prevPlayerListSize != ds_list_size(playerList) && ds_list_size(playerList) > 0)
 {
     prevPlayerListSize = ds_list_size(playerList)
@@ -80,6 +80,17 @@ for (a = 0; a < ds_list_size(deadList); a++)
     if (!match)
         ds_list_delete(deadList, a)
 }
+if (ds_list_size(samusList) > 0 && ds_list_size(deadList) > 0)
+{
+    if (ds_list_size(samusList) == ds_list_size(deadList) || ds_list_size(deadList) > ds_list_size(samusList))
+    {
+        evnt = global.event[308]
+        evnt++
+        if (global.event[308] < 4)
+            global.event[308] = evnt
+        ds_list_clear(deadList)
+    }
+}
 if (ds_list_size(playerList) > 0 && ds_list_size(resetList) > 0)
 {
     if (ds_list_size(playerList) == ds_list_size(resetList) || ds_list_size(resetList) > ds_list_size(playerList))
@@ -88,3 +99,25 @@ if (ds_list_size(playerList) > 0 && ds_list_size(resetList) > 0)
         ds_list_clear(resetList)
     }
 }
+if (!global.lobbyLocked)
+    ds_list_clear(deadList)
+if (global.lobbyLocked && global.doomenabled)
+{
+    doomframes = (global.doomtime * 3600)
+    if (global.gametime > 0)
+        global.gametime--
+    incrementedtime = (doomframes - global.gametime)
+    maxtime = ((doomframes * 2) / 3)
+    global.juggActive = 0
+    if (incrementedtime <= maxtime)
+        global.damageMult = ((4 * incrementedtime) / maxtime)
+    else if (global.gametime <= 0)
+    {
+        global.damageMult = 8
+        global.juggActive = 1
+    }
+    else
+        global.damageMult = 4
+}
+if (!global.doomenabled)
+    global.damageMult = 2

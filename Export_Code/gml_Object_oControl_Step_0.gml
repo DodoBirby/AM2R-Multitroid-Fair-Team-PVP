@@ -207,7 +207,7 @@ if (global.scannerSpeed <= 0)
 
 }
 if (global.showHealthIndicatorsTimer == 1)
-    global.saveStationCooldown = 1800
+    global.saveStationCooldown = 1200
 if (global.showHealthIndicatorsTimer > 0)
 {
     global.showHealthIndicatorsTimer--

@@ -1,11 +1,5 @@
-var etankCount, i, stankCount, ptankCount, mtankCount, itemCount, h, val, sval;
+var etankCount, i, stankCount, ptankCount, mtankCount, itemCount, h, val;
 etankCount = 0
-global.totalItemCount = 0
-for (i = 0; i < array_length_1d(global.FFAItemCounter); i++)
-{
-    if (global.FFAItemCounter[i] > global.totalItemCount)
-        global.totalItemCount = global.FFAItemCounter[i]
-}
 for (i = 0; i < array_length_1d(global.itemSamus); i++)
 {
     if (i == 50 || i == 103 || i == 108 || i == 157 || i == 158 || i == 200 || i == 201 || i == 251 || i == 254 || i == 306)
@@ -49,22 +43,6 @@ for (i = 0; i < array_length_1d(global.itemSamus); i++)
 }
 if (mtankCount != global.mtanks)
     global.mtanks = mtankCount
-itemCount = 0
-for (h = 0; h < array_length_1d(global.itemSamus); h++)
-{
-    val = global.itemSamus[h]
-    sval = global.itemSAX[h]
-    if (val == 1 && h != 1)
-        itemCount++
-    if (sval == 1 && h != 1)
-        itemCount++
-}
-itemCount = (itemCount / 2)
-if global.freeForAll
-    itemCount = global.totalItemCount
-global.damageMult = ((itemCount / 88) * 3)
-if global.experimental
-    global.damageMult = ((itemCount / 88) * 5)
 etankCount = 0
 for (i = 0; i < array_length_1d(global.itemSAX); i++)
 {

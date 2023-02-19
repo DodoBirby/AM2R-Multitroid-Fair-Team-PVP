@@ -15,16 +15,16 @@ if instance_exists(oClient)
             arrRoomPrev = arrDraw[18]
             arrSAX = arrDraw[20]
             if (arrSAX && (!global.sax) && room != rm_transition && (arrRoom == room || (arrRoom == global.lastroom && (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen)) || ((arrRoomPrev == room || (arrRoomPrev == global.lastroom && (room == rm_options || room == itemroom || room == subscreenroom || room == maproom || room == rm_subscreen))) && (arrRoom == 6 || arrRoom == 10 || arrRoom == 9 || arrRoom == 11 || arrRoom == 16))))
-                sameRoomSAX = 0
+                sameRoomSAX = 1
         }
     }
 }
 if (global.showHealthIndicators && global.saxmode)
-    chasedBySAX = 0
+    chasedBySAX = 1
 else
     chasedBySAX = 0
 if ((!global.spectator) && global.saxmode && (!global.sax) && (global.showHealthIndicators || global.enemyNearby || global.escapeTimer > 0 || global.inMusSAXRange || sameRoomSAX || chasedBySAX))
-    playingSAX = 0
+    playingSAX = 1
 else
     playingSAX = 0
 if (prevPlayingSAX != playingSAX)
@@ -181,8 +181,6 @@ if (stopSAXMusTimer > 0)
             audio_stop_sound(musSAXEnvironmentalAmbience)
         if audio_is_playing(musSAXAppear)
             audio_stop_sound(musSAXAppear)
-        if audio_is_playing(musSAXChase)
-            audio_stop_sound(musSAXChase)
         if audio_is_playing(oMusicV2.currentbgm)
             audio_sound_gain(oMusicV2.currentbgm, (global.opmusicvolume / 100), fadeoutTimer)
     }

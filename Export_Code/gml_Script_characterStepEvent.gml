@@ -1,4 +1,4 @@
-var spr, f, arrPos, arrPosID, arrPosRoom, i, arrDraw, arrID, arrX, arrY, jump_vel, splash;
+var spr, f, arrPos, arrPosID, arrPosRoom, i, arrDraw, arrID, arrX, arrY, jump_vel, splash, time1, time2;
 if global.enablecontrol
     chStepControl()
 if global.movingobj
@@ -58,8 +58,6 @@ if (global.saxmode && global.sax && global.playerhealth == 1 && (!global.spectat
 }
 if global.spectator
 {
-    global.sax = 0
-    global.reform = 0
     if global.reform
     {
         invincible = 1
@@ -143,10 +141,10 @@ if global.spectator
         {
             sprite_index = sMonitoad
             image_speed = 0.25
-            maxSpectatorLeftSpeed = -5
-            maxSpectatorRightSpeed = 5
-            maxSpectatorUpSpeed = -5
-            maxSpectatorDownSpeed = 5
+            maxSpectatorLeftSpeed = -4
+            maxSpectatorRightSpeed = 4
+            maxSpectatorUpSpeed = -4
+            maxSpectatorDownSpeed = 4
         }
         if global.sax
         {
@@ -165,13 +163,13 @@ if global.spectator
             }
         }
         if (kLeft > 0)
-            xVel = -5
+            xVel -= 0.1
         if (kRight > 0)
-            xVel = 5
+            xVel += 0.1
         if (kUp > 0)
-            yVel = -5
+            yVel -= 0.1
         if (kDown > 0)
-            yVel = 5
+            yVel += 0.1
         if (xVel < maxSpectatorLeftSpeed)
             xVel = maxSpectatorLeftSpeed
         if (xVel > maxSpectatorRightSpeed)
@@ -183,16 +181,16 @@ if global.spectator
         if (kLeft == 0 && kRight == 0)
         {
             if (xVel > 0)
-                xVel = 0
+                xVel -= 0.1
             if (xVel < 0)
-                xVel = 0
+                xVel += 0.1
         }
         if (kUp == 0 && kDown == 0)
         {
             if (yVel > 0)
-                yVel = 0
+                yVel -= 0.1
             if (yVel < 0)
-                yVel = 0
+                yVel += 0.1
         }
         if (!global.enablecontrol)
         {
@@ -272,6 +270,7 @@ if global.spectator
                 global.absorbDone = 1
                 absorbTime = 0
                 global.playerhealth = -1
+                global.spectator = 0
                 if (global.playerhealth <= 0)
                 {
                     with (oControl)
@@ -721,10 +720,12 @@ if platformCharacterIs(IN_AIR)
     }
     if (yVel < 0 && state == AIRBALL)
     {
+        time1 = statetime < 2
+        time2 = statetime < 4
         if (isCollisionUpRight() == 1 && kRight == 0)
-            x -= ((1 + statetime) < (2 + statetime)) < 4
+            x -= ((1 + time1) + time2)
         if (isCollisionUpLeft() == 1 && kLeft == 0)
-            x += ((1 + statetime) < (2 + statetime)) < 4
+            x += ((1 + time1) + time2)
     }
     if (vjump == 0 && dash == 0 && state != AIRBALL)
     {
@@ -1522,7 +1523,7 @@ if (state == SAVINGFX)
         instance_create(x, y, oSaveFX)
         instance_create(x, y, oSaveSparks)
         popup_text(get_text("Notifications", "GameSaved"))
-        save_game(((working_directory + "\multitroid\save") + string((global.saveslot + 1))))
+        save_game(((working_directory + "/multitroid/save") + string((global.saveslot + 1))))
         refill_heath_ammo()
     }
     if (statetime == 230)
@@ -1609,7 +1610,7 @@ if (state == SAVINGSHIPFX)
     if (statetime == 1)
     {
         sfx_play(sndSave)
-        save_game(((working_directory + "\multitroid\save") + string((global.saveslot + 1))))
+        save_game(((working_directory + "/multitroid/save") + string((global.saveslot + 1))))
         refill_heath_ammo()
         popup_text(get_text("Notifications", "GameSaved"))
     }
@@ -2648,6 +2649,7 @@ if (state == GRABBEDQUEEN)
         x = round(x)
         y = round(y)
         aimlock = 0
+        canbehit = 1
     }
 }
 if (state == GRABBEDQUEENMORPH)
@@ -2668,6 +2670,7 @@ if (state == GRABBEDQUEENMORPH)
         statetime = 0
         x = round(x)
         y = round(y)
+        canbehit = 1
     }
 }
 if (state == GRABBEDQUEENBELLY)
@@ -2693,6 +2696,7 @@ if (state == GRABBEDQUEENBELLY)
             x = round(x)
             y = round(y)
             queen_drain = 0
+            canbehit = 1
         }
     }
     if (!instance_exists(oQueen))
@@ -3341,6 +3345,31 @@ if (monster_drain > 0)
         else
             global.playerhealth -= (global.mod_monstersdrainGS * 4)
     }
+    if global.sax
+    {
+        if (global.currentsuit == 0 && oControl.mod_monstersextreme == 0)
+            global.playerhealth -= (global.mod_monstersdrainPS * 2)
+        else if (global.currentsuit == 0 && oControl.mod_monstersextreme != 0)
+            global.playerhealth -= (global.mod_monstersdrainPS * 4)
+        if (global.currentsuit == 1 && oControl.mod_monstersextreme == 0)
+            global.playerhealth -= (global.mod_monstersdrainVS * 2)
+        else if (global.currentsuit == 1 && oControl.mod_monstersextreme != 0)
+            global.playerhealth -= (global.mod_monstersdrainVS * 4)
+        if (global.currentsuit == 2 && oControl.mod_monstersextreme == 0)
+        {
+            if (global.item[5] == 0)
+                global.playerhealth -= (global.mod_monstersdrainVS * 2)
+            else
+                global.playerhealth -= (global.mod_monstersdrainGS * 2)
+        }
+        else if (global.currentsuit == 2 && oControl.mod_monstersextreme != 0)
+        {
+            if (global.item[5] == 0)
+                global.playerhealth -= (global.mod_monstersdrainVS * 4)
+            else
+                global.playerhealth -= (global.mod_monstersdrainGS * 4)
+        }
+    }
     if (global.playerhealth <= 0)
     {
         with (oControl)
@@ -3696,7 +3725,10 @@ if (onfire > 0)
 if (ballbounce > 0)
     ballbounce -= 1
 statetime += 1
-if (state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIP && state != SAVINGSHIPFX)
+if (!global.saxmode)
+{
+    if (state != IDLE && state != SAVING && state != SAVINGFX && state != SAVINGSHIP && state != SAVINGSHIPFX)
+        global.gametime += 1
+}
+else if (global.damageMult == 2)
     global.gametime += 1
-if (global.freeForAll && (!global.spectator))
-    global.sax = global.clientID

@@ -1,4 +1,4 @@
-var scaleMult, f, arrList, ID, _x, _y, xoffNew, lowestPosX, lowestPosY, enemyCount, i, arrData, xDiff, yDiff, sax, spectator, lowestDist, dist;
+var scaleMult, f, arrList, ID, _x, _y, xoffNew, lowestPosX, lowestPosY, enemyCount, i, arrData, xDiff, yDiff, sax, spectator, playerState, lowestDist, dist, combatState, playerVisible;
 if (global.classicmode == 0 && global.opshowhud)
 {
     xoff = 33
@@ -426,15 +426,15 @@ if (global.classicmode == 0 && global.opshowhud)
         draw_background(bgGUIMetOnly, (296 + widescreen_space), 0)
         xoff = 296
     }
-    if instance_exists(oClient)
+    if (instance_exists(oClient) && global.saxmode)
     {
         draw_set_halign(fa_right)
         draw_set_alpha(0.39215686274509803)
         draw_set_color(c_black)
-        xoffNew = (xoff - 25)
-        draw_rectangle((xoffNew + oControl.widescreen_space), 0, ((xoff - 1) + oControl.widescreen_space), 26, false)
+        xoffNew = (xoff - 45)
+        draw_rectangle((xoffNew + oControl.widescreen_space), 0, ((xoff - 1) + oControl.widescreen_space), 31, false)
         draw_set_alpha(0.7843137254901961)
-        draw_rectangle(((xoffNew + 3) + oControl.widescreen_space), 3, ((xoff - 2) + oControl.widescreen_space), 23, false)
+        draw_rectangle(((xoffNew + 3) + oControl.widescreen_space), 3, ((xoff - 3) + oControl.widescreen_space), 28, false)
         draw_set_alpha(1)
         draw_set_color(c_white)
         draw_set_halign(fa_left)
@@ -449,6 +449,12 @@ if (global.classicmode == 0 && global.opshowhud)
             yDiff = (oClient.posY - arrData[2])
             sax = arrData[3]
             spectator = arrData[5]
+            playerState = arrData[6]
+            if (playerState == 1)
+            {
+                xDiff *= 2
+                yDiff *= 2
+            }
             dist = max(abs(xDiff), abs(yDiff))
             if (sax != global.sax && ID != global.clientID)
             {
@@ -510,23 +516,20 @@ if (global.classicmode == 0 && global.opshowhud)
     }
     if global.ophudshowmetrcount
     {
-        if (global.saxmode && global.sax)
+        if global.saxmode
         {
-            draw_background(bgSamCount, ((xoff + 4) + widescreen_space), 4)
-            draw_text(((xoff + 6) + widescreen_space), 21, to_string_lz(global.samCount))
+            draw_background(bgSamCount, ((xoff - 20) + widescreen_space), 4)
+            draw_text(((xoff - 18) + widescreen_space), 21, to_string_lz(global.samCount))
         }
-        else
+        if (global.ophudshowmetrcount == 1)
         {
-            if (global.ophudshowmetrcount == 1)
-            {
-                draw_background(bgGUIMetCountBG1, ((xoff + 4) + widescreen_space), 4)
-                draw_text(((xoff + 6) + widescreen_space), 21, to_string_lz(global.monstersarea))
-            }
-            if (global.ophudshowmetrcount == 2)
-            {
-                draw_background(bgGUIMetCountBG2, ((xoff + 4) + widescreen_space), 4)
-                draw_text(((xoff + 6) + widescreen_space), 21, to_string_lz(global.monstersleft))
-            }
+            draw_background(bgGUIMetCountBG1, ((xoff + 4) + widescreen_space), 4)
+            draw_text(((xoff + 6) + widescreen_space), 21, to_string_lz(global.monstersarea))
+        }
+        if (global.ophudshowmetrcount == 2)
+        {
+            draw_background(bgGUIMetCountBG2, ((xoff + 4) + widescreen_space), 4)
+            draw_text(((xoff + 6) + widescreen_space), 21, to_string_lz(global.monstersleft))
         }
     }
     if global.ophudshowmap
@@ -541,11 +544,13 @@ if (global.classicmode == 0 && global.opshowhud)
                 yDiff = (oClient.posY - arrData[2])
                 sax = arrData[3]
                 spectator = arrData[5]
-                if global.spectator
+                playerState = arrData[6]
+                combatState = arrData[7]
+                if ((global.spectator && (!global.sax)) || (global.sax && global.juggActive))
                 {
                     if (!sax)
                     {
-                        if spectator
+                        if (spectator && (!global.sax))
                         {
                             if (abs(xDiff) <= 2 && abs(yDiff) <= 1)
                                 draw_sprite_ext(sSpectatorIcon, 0, (((276 + widescreen_space) + 16) - (xDiff * 8)), (12 - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha)
@@ -556,8 +561,23 @@ if (global.classicmode == 0 && global.opshowhud)
                     else if (abs(xDiff) <= 2 && abs(yDiff) <= 1)
                         draw_sprite_ext(sMultitroidMapIconMiepee, 0, (((276 + widescreen_space) + 16) - (xDiff * 8)), (12 - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha)
                 }
-                else if (abs(xDiff) <= 2 && abs(yDiff) <= 1 && sax == global.sax)
-                    draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), (12 - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha)
+                else if (abs(xDiff) <= 2 && abs(yDiff) <= 1)
+                {
+                    if ((!spectator) || sax)
+                    {
+                        playerVisible = 0
+                        if (playerState != 1)
+                        {
+                            if combatState
+                            {
+                                draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), (12 - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha)
+                                playerVisible = 1
+                            }
+                        }
+                        if ((!playerVisible) && global.sax == sax)
+                            draw_sprite_ext(oControl.MultitroidMapIcon, (arrData[0] - 1), (((276 + widescreen_space) + 16) - (xDiff * 8)), (12 - (yDiff * 8)), 1, 1, direction, c_white, oControl.malpha)
+                    }
+                }
             }
         }
     }

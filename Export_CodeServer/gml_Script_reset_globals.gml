@@ -58,11 +58,13 @@ global.mtanksSAX = 0
 global.stanksSAX = 0
 global.ptanksSAX = 0
 global.monstersleft = 0
+global.prevMonstersLeft = 0
+global.gametime = 0
+global.doomenabled = 0
+global.doomstarted = 0
+global.juggActive = 0
 syncedDifficulty = 1
 syncedELM = 0
 global.seed = 0
 global.rando = 1
-global.totalItemCount = 0
-for (i = 0; i < array_length_1d(global.FFAItemCounter); i++)
-    global.FFAItemCounter[i] = 0
 scr_default_global_items()

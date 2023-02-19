@@ -38,7 +38,7 @@ if instance_exists(oClient)
                         mask_index = sMask4
                     if (arrSJBall == 1 && (arrState == SUPERJUMP || arrState == SJSTART || arrState == SJEND || arrState == BRAKING))
                         mask_index = sMask4
-                    if (instance_exists(oCharacter) && distance_to_object(oCharacter) <= 500 && arrState == RUNNING && ((abs(arrImage) >= 4 && abs(arrImage) < 4.9) || (abs(arrImage) >= 9 && abs(arrImage) < 9.9)) && arrSAX && global.saxmode)
+                    if (instance_exists(oCharacter) && distance_to_object(oCharacter) <= 500 && arrState == RUNNING && ((abs(arrImage) >= 4 && abs(arrImage) < 4.9) || (abs(arrImage) >= 9 && abs(arrImage) < 9.9)) && arrSAX)
                         PlayFootstepSAX(get_floor_material())
                     if (arrSprite == 1915)
                     {
@@ -57,6 +57,18 @@ if instance_exists(oClient)
                                 global.otherAbsorbRelativeX = oCharacter.x
                                 global.otherAbsorbRelativeY = oCharacter.y
                                 global.otherAbsorbSpriteHeight = (oCharacter.sprite_height / 2)
+                                global.playerhealth += 700
+                                if (global.playerhealth > global.maxhealth)
+                                    global.playerhealth = global.maxhealth
+                                global.missiles += 75
+                                if (global.missiles > global.maxmissiles)
+                                    global.missiles = global.maxmissiles
+                                global.smissiles += 10
+                                if (global.smissiles > global.maxsmissiles)
+                                    global.smissiles = global.maxsmissiles
+                                global.pbombs += 5
+                                if (global.pbombs > global.maxpbombs)
+                                    global.pbombs = global.maxpbombs
                                 with (oClient)
                                     event_user(4)
                             }

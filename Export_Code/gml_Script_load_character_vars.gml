@@ -1,4 +1,4 @@
-var i;
+var i, f;
 global.morphball = 1
 global.jumpball = 0
 global.powergrip = 1
@@ -63,6 +63,14 @@ repeat (350)
 global.item[1] = 1
 reset_logs_list()
 reset_hints()
+if global.saxmode
+{
+    for (i = 0; i < array_height_2d(global.dmap); i++)
+    {
+        for (f = 0; f < array_length_2d(global.dmap, i); f++)
+            global.dmap[i, f] = 1
+    }
+}
 if (global.sax && global.saxmode)
 {
     global.item[0] = 1

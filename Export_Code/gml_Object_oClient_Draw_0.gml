@@ -1,4 +1,4 @@
-var b, arrDraw, arrID, arrX, arrY, arrSprite, arrImage, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrArmmsl, arrRoom, arrName, arrBlend, arrFXTimer, arrRoomPrev, arrState, arrSAX, arrSpeedboost, arrSJBall, arrSJDir, arrSpeedCharge, arrSpectator, arrInvincible, arrMosaic, arrReform, arrVisible, spacejump, screwattack, spiderball, speedbooster, i, tempArr, ID, canDraw, sprHeight, findID, sax, arrMapIcon, spectator, rectoffset, f, arrList, _x, _y;
+var b, arrDraw, arrID, arrX, arrY, arrSprite, arrImage, arrA1, arrA1X, arrA1Y, arrA2, arrA2X, arrA2Y, arrA2A, arrMirror, arrArmmsl, arrRoom, arrName, arrBlend, arrFXTimer, arrRoomPrev, arrState, arrSAX, arrSpeedboost, arrSJBall, arrSJDir, arrSpeedCharge, arrSpectator, arrInvincible, arrMosaic, arrReform, arrVisible, spacejump, screwattack, spiderball, speedbooster, i, tempArr, ID, canDraw, sprHeight, findID, sax, arrMapIcon, spectator, rectoffset, f, arrList, _x, _y, superjump, sjstart, arrSBall;
 if (ds_list_size(roomListData) > 0)
 {
     for (b = 0; b < ds_list_size(roomListData); b++)
@@ -34,6 +34,7 @@ if (ds_list_size(roomListData) > 0)
         arrMosaic = arrDraw[28]
         arrReform = arrDraw[29]
         arrVisible = arrDraw[30]
+        arrSBall = arrDraw[31]
         spacejump = global.spacejump
         screwattack = global.screwattack
         spiderball = global.spiderball
@@ -195,9 +196,11 @@ if (ds_list_size(roomListData) > 0)
                     draw_sprite_ext(sMiepee, 2, arrX, (arrY - sprHeight), (1 * arrMirror), 1, direction, c_white, 1)
             }
         }
+        superjump = 30
+        sjstart = 29
         if (arrRoom == room && room != rm_transition)
         {
-            if ((string_count("SJump", sprite_get_name(arrSprite)) > 0 || arrSpeedboost > 0 || arrSJBall > 0) && arrState != HURT)
+            if ((string_count("SJump", sprite_get_name(arrSprite)) > 0 || arrSpeedboost > 0 || arrState == superjump || arrState == sjstart) && arrState != HURT && (!arrSpectator))
             {
                 findID = ds_list_find_index(global.speedList, arrID)
                 if (findID < 0)
@@ -290,11 +293,11 @@ if instance_exists(oMapCursor)
             arrY = arrMapIcon[2]
             sax = arrMapIcon[3]
             spectator = arrMapIcon[5]
-            if global.spectator
+            if ((global.spectator && (!global.sax)) || (global.sax && global.juggActive))
             {
                 if (!sax)
                 {
-                    if spectator
+                    if (spectator && (!global.sax))
                     {
                         if (arrX != 3 && arrY != 3)
                             draw_sprite_ext(sSpectatorIcon, 0, (arrX * 8), ((arrY * 8) + 32), 1, 1, direction, c_white, oMapCursor.image_alpha)

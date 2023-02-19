@@ -1,4 +1,4 @@
-var size, type, alignment, sax, bufferSize, result, i, arr, ID, findID, h, arrList, arrID, arrX, arrY, arrName, findHatchlingID, hatchling, lowestPosX, lowestPosY, enemyCount, arrData, xDiff, yDiff, spectator, playerInBossRoom, arrMapIcon, playerRoom, dist, lowestDist;
+var size, type, alignment, sax, bufferSize, result, i, arr, ID, findID, h, arrList, arrID, arrX, arrY, arrName, findHatchlingID, hatchling, lowestPosX, lowestPosY, enemyCount, arrData, xDiff, yDiff, spectator, playerInBossRoom, arrMapIcon, playerRoom, playerState, lowestDist, dist;
 if (!connected)
 {
     if (isConnected >= 0)
@@ -717,7 +717,7 @@ switch syncedDifficulty
 
 if (oControl.mod_monstersextremecheck != elm)
     oControl.mod_monstersextremecheck = elm
-if (((!global.ingame) || (!global.opshowhud)) && instance_exists(oClient))
+if (((!global.ingame) || (!global.opshowhud)) && global.saxmode)
 {
     lowestDist = 1000
     enemyCount = 0
@@ -729,6 +729,12 @@ if (((!global.ingame) || (!global.opshowhud)) && instance_exists(oClient))
         yDiff = (oClient.posY - arrData[2])
         sax = arrData[3]
         spectator = arrData[5]
+        playerState = arrData[6]
+        if (playerState == 1)
+        {
+            xDiff *= 2
+            yDiff *= 2
+        }
         dist = max(abs(xDiff), abs(yDiff))
         if (sax != global.sax && ID != global.clientID)
         {
