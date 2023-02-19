@@ -26,7 +26,7 @@ if instance_exists(oServer)
             arr = ds_list_find_value(oServer.idList, i)
             arrID = arr[0, 0]
             if (arrID == ID)
-                y = (317 + ((i + 1) * 30))
+                y = (217 + ((i + 1) * 30))
         }
     }
 }
