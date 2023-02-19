@@ -184,7 +184,7 @@ else
         draw_set_halign(fa_left)
     }
 }
-if ((!global.sax) && global.spectator && global.ingame)
+if (global.spectator && global.ingame)
 {
     text = "Jump to swap players"
     draw_set_font(global.fontGUI2)
@@ -196,24 +196,4 @@ if ((!global.sax) && global.spectator && global.ingame)
     draw_set_halign(fa_center)
     draw_cool_text((view_xview[0] + 160), (view_yview[0] + 220), text, c_black, c_white, c_white, image_alpha)
     draw_set_halign(fa_left)
-}
-if (global.sax && global.spectator && global.ingame)
-{
-    if (global.reformTimer > 0)
-    {
-        timerStr = string((global.reformTimer / 60))
-        text = (("Reform in " + timerStr) + " seconds")
-        draw_set_font(global.fontGUI2)
-        draw_set_halign(fa_center)
-        draw_cool_text((view_xview[0] + 160), (view_yview[0] + 220), text, c_black, c_white, c_white, image_alpha)
-        draw_set_halign(fa_left)
-    }
-    else
-    {
-        text = "Jump to reform!"
-        draw_set_font(global.fontGUI2)
-        draw_set_halign(fa_center)
-        draw_cool_text((view_xview[0] + 160), (view_yview[0] + 220), text, c_black, c_white, c_white, image_alpha)
-        draw_set_halign(fa_left)
-    }
 }

@@ -10,52 +10,6 @@ if (global.saxmode && (!global.lobbyLocked))
     chStepSetSprite()
     exit
 }
-if (global.playerhealth <= 0 && global.sax && oCharacter.sprite_index != sCoreXSAX)
-    global.playerhealth = 1
-if (global.saxmode && global.sax && global.playerhealth == 1 && (!global.spectator) && global.lobbyLocked)
-{
-    if (!global.mosaic)
-    {
-        global.mosaic = 1
-        mosaicTime = 0
-    }
-    if global.mosaic
-    {
-        invincible = 1
-        if (mosaicTime == 0)
-        {
-            sfx_play(sndXMorph1)
-            Mute_Loops()
-            image_speed = 0
-            global.playerFreeze = 1
-        }
-        if (mosaicTime < 40)
-        {
-            sizeX += 0.18
-            sizeY += 0.12
-        }
-        if (mosaicTime == 40)
-            sprite_index = sCoreXSAX
-        if (mosaicTime >= 40 && mosaicTime < 80)
-        {
-            sizeX -= 0.18
-            sizeY -= 0.12
-        }
-        if (mosaicTime == 80)
-        {
-            global.mosaic = 0
-            global.spectator = 1
-            global.spectatorIndex = -1
-            global.reformTimer = 1200
-            invincible = 240
-            mosaicTime = 0
-        }
-        mosaicTime++
-    }
-    xVel = 0
-    yVel = 0
-    exit
-}
 if global.spectator
 {
     if global.reform
@@ -137,31 +91,12 @@ if global.spectator
             with (oMBTrail)
                 instance_destroy()
         }
-        if (!global.sax)
-        {
-            sprite_index = sMonitoad
-            image_speed = 0.25
-            maxSpectatorLeftSpeed = -4
-            maxSpectatorRightSpeed = 4
-            maxSpectatorUpSpeed = -4
-            maxSpectatorDownSpeed = 4
-        }
-        if global.sax
-        {
-            sprite_index = sCoreXSAX
-            image_speed = 0.16
-            maxSpectatorLeftSpeed = -2.5
-            maxSpectatorRightSpeed = 2.5
-            maxSpectatorUpSpeed = -2.5
-            maxSpectatorDownSpeed = 2.5
-            if (invincible > 0)
-            {
-                maxSpectatorLeftSpeed = -4
-                maxSpectatorRightSpeed = 4
-                maxSpectatorUpSpeed = -4
-                maxSpectatorDownSpeed = 4
-            }
-        }
+        sprite_index = sMonitoad
+        image_speed = 0.25
+        maxSpectatorLeftSpeed = -4
+        maxSpectatorRightSpeed = 4
+        maxSpectatorUpSpeed = -4
+        maxSpectatorDownSpeed = 4
         if (kLeft > 0)
             xVel -= 0.1
         if (kRight > 0)
@@ -280,95 +215,79 @@ if global.spectator
         }
         absorbTime++
     }
-    if (!global.sax)
+    if (kJump && kJumpPushedSteps == 0 && spectatorSwapTimer == 0)
     {
-        if (kJump && kJumpPushedSteps == 0 && spectatorSwapTimer == 0)
+        if instance_exists(oClient)
         {
-            if instance_exists(oClient)
+            if (ds_list_size(oClient.posData) > 0)
             {
-                if (ds_list_size(oClient.posData) > 0)
-                {
-                    global.spectatorIndex++
-                    spectatorSwapTimer = 30
-                    if (global.spectatorIndex > (ds_list_size(oClient.posData) - 1))
-                        global.spectatorIndex = -1
-                }
-                else
+                global.spectatorIndex++
+                spectatorSwapTimer = 30
+                if (global.spectatorIndex > (ds_list_size(oClient.posData) - 1))
                     global.spectatorIndex = -1
             }
+            else
+                global.spectatorIndex = -1
         }
-        if (kFire && kFirePushedSteps == 0 && spectatorSwapTimer == 0)
-            global.spectatorIndex = -1
-        if (global.spectatorIndex != -1)
+    }
+    if (kFire && kFirePushedSteps == 0 && spectatorSwapTimer == 0)
+        global.spectatorIndex = -1
+    if (global.spectatorIndex != -1)
+    {
+        if instance_exists(oClient)
         {
-            if instance_exists(oClient)
+            if (ds_list_size(oClient.posData) > 0)
             {
-                if (ds_list_size(oClient.posData) > 0)
+                for (f = 0; f < ds_list_size(oClient.posData); f++)
                 {
-                    for (f = 0; f < ds_list_size(oClient.posData); f++)
+                    arrPos = ds_list_find_value(oClient.posData, f)
+                    arrPosID = arrPos[0]
+                    arrPosRoom = arrPos[4]
+                    if (f == global.spectatorIndex)
                     {
-                        arrPos = ds_list_find_value(oClient.posData, f)
-                        arrPosID = arrPos[0]
-                        arrPosRoom = arrPos[4]
-                        if (f == global.spectatorIndex)
+                        if (global.ingame && room != arrPosRoom && room != rm_transition && arrPosRoom != titleroom && arrPosRoom != gameoverroom && arrPosRoom != rm_credits && arrPosRoom != rm_gallery && arrPosRoom != rm_options && arrPosRoom != optionsroom && arrPosRoom != quitroom && arrPosRoom != subscreenroom && arrPosRoom != itemroom && arrPosRoom != maproom && arrPosRoom != introroom && arrPosRoom != gameintroroom && arrPosRoom != rm_loading && arrPosRoom != rm_subscreen && arrPosRoom != rm_death && arrPosRoom != rm_controller && arrPosRoom != rm_score && (arrPosRoom == rm_transition || string_count("rm_a", room_get_name(arrPosRoom)) > 0))
                         {
-                            if (global.ingame && room != arrPosRoom && room != rm_transition && arrPosRoom != titleroom && arrPosRoom != gameoverroom && arrPosRoom != rm_credits && arrPosRoom != rm_gallery && arrPosRoom != rm_options && arrPosRoom != optionsroom && arrPosRoom != quitroom && arrPosRoom != subscreenroom && arrPosRoom != itemroom && arrPosRoom != maproom && arrPosRoom != introroom && arrPosRoom != gameintroroom && arrPosRoom != rm_loading && arrPosRoom != rm_subscreen && arrPosRoom != rm_death && arrPosRoom != rm_controller && arrPosRoom != rm_score && (arrPosRoom == rm_transition || string_count("rm_a", room_get_name(arrPosRoom)) > 0))
+                            if instance_exists(oGotoRoom)
                             {
-                                if instance_exists(oGotoRoom)
+                                gotoRoom = instance_nearest(x, y, oGotoRoom)
+                                if (gotoRoom.direction == 0 || gotoRoom.direction == 180)
                                 {
-                                    gotoRoom = instance_nearest(x, y, oGotoRoom)
-                                    if (gotoRoom.direction == 0 || gotoRoom.direction == 180)
-                                    {
-                                        global.offsety = (y - gotoRoom.y)
-                                        global.offsetx = 0
-                                    }
-                                    if (gotoRoom.direction == 90 || gotoRoom.direction == 270)
-                                    {
-                                        global.offsetx = (x - gotoRoom.x)
-                                        global.offsety = 0
-                                    }
-                                    global.targetx = gotoRoom.targetx
-                                    global.targety = gotoRoom.targety
-                                    global.transitionx = (gotoRoom.transitionx + global.offsetx)
-                                    global.transitiony = (gotoRoom.transitiony + global.offsety)
-                                    global.camstartx = gotoRoom.camstartx
-                                    global.camstarty = gotoRoom.camstarty
-                                    oCamera.x = global.camstartx
-                                    oCamera.y = global.camstarty
-                                    room_change(arrPosRoom, 1)
+                                    global.offsety = (y - gotoRoom.y)
+                                    global.offsetx = 0
                                 }
-                            }
-                            if (ds_list_size(oClient.roomListData) > 0)
-                            {
-                                for (i = 0; i < ds_list_size(oClient.roomListData); i++)
+                                if (gotoRoom.direction == 90 || gotoRoom.direction == 270)
                                 {
-                                    arrDraw = ds_list_find_value(oClient.roomListData, i)
-                                    arrID = arrDraw[0]
-                                    arrX = arrDraw[1]
-                                    arrY = arrDraw[2]
-                                    if (arrPosID == arrID)
-                                    {
-                                        x = arrX
-                                        y = arrY
-                                    }
+                                    global.offsetx = (x - gotoRoom.x)
+                                    global.offsety = 0
+                                }
+                                global.targetx = gotoRoom.targetx
+                                global.targety = gotoRoom.targety
+                                global.transitionx = (gotoRoom.transitionx + global.offsetx)
+                                global.transitiony = (gotoRoom.transitiony + global.offsety)
+                                global.camstartx = gotoRoom.camstartx
+                                global.camstarty = gotoRoom.camstarty
+                                oCamera.x = global.camstartx
+                                oCamera.y = global.camstarty
+                                room_change(arrPosRoom, 1)
+                            }
+                        }
+                        if (ds_list_size(oClient.roomListData) > 0)
+                        {
+                            for (i = 0; i < ds_list_size(oClient.roomListData); i++)
+                            {
+                                arrDraw = ds_list_find_value(oClient.roomListData, i)
+                                arrID = arrDraw[0]
+                                arrX = arrDraw[1]
+                                arrY = arrDraw[2]
+                                if (arrPosID == arrID)
+                                {
+                                    x = arrX
+                                    y = arrY
                                 }
                             }
                         }
                     }
                 }
-            }
-        }
-    }
-    else if global.sax
-        global.spectatorIndex = -1
-    if global.sax
-    {
-        if global.spectator
-        {
-            if (kJump && kJumpPushedSteps == 0 && global.reformTimer == 0 && (!global.reform))
-            {
-                global.reform = 1
-                reformTime = 0
             }
         }
     }
