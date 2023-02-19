@@ -533,7 +533,7 @@ if (global.classicmode == 0 && global.opshowhud)
                 }
                 else if (abs(xDiff) <= 2 && abs(yDiff) <= 1)
                 {
-                    if ((!spectator) || sax)
+                    if (!spectator)
                     {
                         playerVisible = 0
                         if (playerState != 1)
