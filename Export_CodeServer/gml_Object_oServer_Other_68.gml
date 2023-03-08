@@ -2457,7 +2457,7 @@ switch type_event
                     for (i = 0; i < ds_list_size(idList); i++)
                     {
                         arrList = ds_list_find_value(idList, i)
-                        if (checkID == arrList[0, 0])
+                        if (killedBy == arrList[0, 0])
                             tempSocket = arrList[0, 1]
                     }
                     buffer_delete(buffer)
