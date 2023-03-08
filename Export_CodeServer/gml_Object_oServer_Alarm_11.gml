@@ -31,6 +31,7 @@ buffer_write(buffer, buffer_u8, global.experimental)
 buffer_write(buffer, buffer_u8, global.MetCount)
 buffer_write(buffer, buffer_u8, global.freeForAll)
 buffer_write(buffer, buffer_u8, global.killMessages)
+buffer_write(buffer, buffer_u8, global.looting)
 for (i = 0; i < sockets; i++)
     network_send_packet(ds_list_find_value(playerList, i), buffer, buffer_tell(buffer))
 alarm[11] = 30

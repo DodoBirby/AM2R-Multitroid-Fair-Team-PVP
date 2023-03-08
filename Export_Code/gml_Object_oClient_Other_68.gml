@@ -479,6 +479,7 @@ switch type_event
                 global.MetCount = buffer_read(_buffer, buffer_u8)
                 global.freeForAll = buffer_read(_buffer, buffer_u8)
                 global.killMessages = buffer_read(_buffer, buffer_u8)
+                global.looting = buffer_read(_buffer, buffer_u8)
                 global.damageMult = damageMult
                 global.saxmode = saxmode
                 global.experimental = experimental
