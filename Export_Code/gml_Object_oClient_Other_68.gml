@@ -1,4 +1,4 @@
-var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, playerState, combatState, freezeOff, checkDir, clientSBall, canFreeze, cantFreeze;
+var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, playerState, combatState, freezeOff, checkDir, clientSBall, canFreeze, cantFreeze, checkID, attackID, killedBy, deadPlayer, deadName, killerName;
 disconnectTimer = 900
 if (!global.acceptPacket)
     exit
@@ -369,11 +369,13 @@ switch type_event
                 break
             case 110:
                 global.showHealthIndicatorsTimer = 900
+                attackID = buffer_read(_buffer, buffer_u8)
                 checkBeam = buffer_read(_buffer, buffer_u8)
                 checkMissile = buffer_read(_buffer, buffer_u8)
                 checkDamage = buffer_read(_buffer, buffer_u8)
                 checkFreeze = buffer_read(_buffer, buffer_u8)
                 checkDir = buffer_read(_buffer, buffer_u8)
+                global.killedBy = attackID
                 if (checkMissile && global.playerFreeze > 151)
                     break
                 else
@@ -476,6 +478,7 @@ switch type_event
                 experimental = buffer_read(_buffer, buffer_u8)
                 global.MetCount = buffer_read(_buffer, buffer_u8)
                 global.freeForAll = buffer_read(_buffer, buffer_u8)
+                global.killMessages = buffer_read(_buffer, buffer_u8)
                 global.damageMult = damageMult
                 global.saxmode = saxmode
                 global.experimental = experimental
@@ -1591,6 +1594,16 @@ switch type_event
                 playerX = buffer_read(_buffer, buffer_s16)
                 playerY = buffer_read(_buffer, buffer_s16)
                 sax = buffer_read(_buffer, buffer_s8)
+                killedBy = buffer_read(_buffer, buffer_u8)
+                deadName = buffer_read(_buffer, buffer_string)
+                killerName = buffer_read(_buffer, buffer_string)
+                if global.killMessages
+                {
+                    if (killedBy != 0)
+                        popup_text(((killerName + " killed ") + deadName))
+                    else
+                        popup_text((deadName + " died"))
+                }
                 if (room == sentRoom)
                 {
                     seq = instance_create(playerX, playerY, oDeathSequenceMulti)

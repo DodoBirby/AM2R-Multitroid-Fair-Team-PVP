@@ -1,4 +1,4 @@
-var type_event, ip, findIP, findKickIP, ban, size, type, alignment, bufferSize, findsocket, i, arrList, socket, socketID, ID, arr, seed, findID, _buffer, bufferSizePacket, clientID, sax, sockets, preferredID, f, arrID, arrSocket, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, list, clientMapX, clientMapY, spectator, findSamus, event, findDead, playerHealth, missiles, smissiles, pbombs, ping, realPing, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, tempSocket, checkID, checkX, checkY, checkBeam, checkMissile, checkDamage, checkFreeze, lag, lagPositions, timeToCheck, g, lagPosArr, lagPosTime, lagPosID, lagPosX, lagPosY, packetID, name, lobbyLocked, _queenHealth, phase, state, monstersLeft, monstersArea, item, itemArr, v, metdead, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, gametime, findTime, findReset, dir, sprX, sprY, charge, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, playerhealth, syncDiff, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, saxmode, findIDSamus, findIDSAX, mapposx, mapposy, mirror, sentRoom, playerX, playerY, receivedItem, receivedEvent, receivedMetdead, j, receiveddmap, msg, splitBy, slot, splits, str2, currStr, wrongVersion, playerState, combatState, checkDir, clientSBall, itempercent;
+var type_event, ip, findIP, findKickIP, ban, size, type, alignment, bufferSize, findsocket, i, arrList, socket, socketID, ID, arr, seed, findID, _buffer, bufferSizePacket, clientID, sax, sockets, preferredID, f, arrID, arrSocket, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, list, clientMapX, clientMapY, spectator, findSamus, event, findDead, playerHealth, missiles, smissiles, pbombs, ping, realPing, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, tempSocket, checkID, checkX, checkY, checkBeam, checkMissile, checkDamage, checkFreeze, lag, lagPositions, timeToCheck, g, lagPosArr, lagPosTime, lagPosID, lagPosX, lagPosY, packetID, name, lobbyLocked, _queenHealth, phase, state, monstersLeft, monstersArea, item, itemArr, v, metdead, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, gametime, findTime, findReset, dir, sprX, sprY, charge, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, playerhealth, syncDiff, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, saxmode, findIDSamus, findIDSAX, mapposx, mapposy, mirror, sentRoom, playerX, playerY, receivedItem, receivedEvent, receivedMetdead, j, receiveddmap, msg, splitBy, slot, splits, str2, currStr, wrongVersion, playerState, combatState, checkDir, clientSBall, itempercent, attackID, killedBy, deadPlayer, killerName, deadName;
 type_event = ds_map_find_value(async_load, "type")
 ip = ds_map_find_value(async_load, "ip")
 findIP = ds_list_find_index(banList, ip)
@@ -800,6 +800,7 @@ switch type_event
                     network_send_packet(tempSocket, buffer, buffer_tell(buffer))
                 break
             case 106:
+                attackID = buffer_read(_buffer, buffer_u8)
                 checkID = buffer_read(_buffer, buffer_u8)
                 checkX = buffer_read(_buffer, buffer_s16)
                 checkY = buffer_read(_buffer, buffer_s16)
@@ -827,6 +828,7 @@ switch type_event
                     buffer = buffer_create(size, type, alignment)
                     buffer_seek(buffer, buffer_seek_start, 0)
                     buffer_write(buffer, buffer_u8, 110)
+                    buffer_write(buffer, buffer_u8, attackID)
                     buffer_write(buffer, buffer_u8, checkBeam)
                     buffer_write(buffer, buffer_u8, checkMissile)
                     buffer_write(buffer, buffer_u8, checkDamage)
@@ -836,6 +838,7 @@ switch type_event
                     buffer_seek(buffer, buffer_seek_start, 0)
                     buffer_write(buffer, buffer_s32, bufferSize)
                     buffer_write(buffer, buffer_u8, 110)
+                    buffer_write(buffer, buffer_u8, attackID)
                     buffer_write(buffer, buffer_u8, checkBeam)
                     buffer_write(buffer, buffer_u8, checkMissile)
                     buffer_write(buffer, buffer_u8, checkDamage)
@@ -2445,6 +2448,24 @@ switch type_event
                 playerX = buffer_read(_buffer, buffer_s16)
                 playerY = buffer_read(_buffer, buffer_s16)
                 sax = buffer_read(_buffer, buffer_s8)
+                killedBy = buffer_read(_buffer, buffer_u8)
+                deadPlayer = buffer_read(_buffer, buffer_u8)
+                killerName = ""
+                deadName = ""
+                if global.killMessages
+                {
+                    for (i = 0; i < ds_list_size(idList); i++)
+                    {
+                        arrList = ds_list_find_value(idList, i)
+                        if (array_length_2d(arrList, 0) <= 2)
+                        {
+                        }
+                        else if (arrList[0, 0] == killedBy)
+                            killerName = arrList[0, 2]
+                        else if (arrList[0, 0] == deadPlayer)
+                            deadName = arrList[0, 2]
+                    }
+                }
                 buffer_delete(buffer)
                 size = 1024
                 type = buffer_grow
@@ -2457,6 +2478,9 @@ switch type_event
                 buffer_write(buffer, buffer_s16, playerX)
                 buffer_write(buffer, buffer_s16, playerY)
                 buffer_write(buffer, buffer_s8, sax)
+                buffer_write(buffer, buffer_u8, killedBy)
+                buffer_write(buffer, buffer_string, deadName)
+                buffer_write(buffer, buffer_string, killerName)
                 bufferSize = buffer_tell(buffer)
                 buffer_seek(buffer, buffer_seek_start, 0)
                 buffer_write(buffer, buffer_s32, bufferSize)
@@ -2466,6 +2490,9 @@ switch type_event
                 buffer_write(buffer, buffer_s16, playerX)
                 buffer_write(buffer, buffer_s16, playerY)
                 buffer_write(buffer, buffer_s8, sax)
+                buffer_write(buffer, buffer_u8, killedBy)
+                buffer_write(buffer, buffer_string, deadName)
+                buffer_write(buffer, buffer_string, killerName)
                 sockets = ds_list_size(playerList)
                 for (i = 0; i < sockets; i++)
                 {

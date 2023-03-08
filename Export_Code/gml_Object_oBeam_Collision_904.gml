@@ -4,6 +4,7 @@ if (sax != other.sax && (!other.spectator))
     if pbeam
     {
         event_user(0)
+        global.attackID = global.clientID
         global.checkID = other.myid
         global.checkX = other.x
         global.checkY = other.y
@@ -23,6 +24,7 @@ if (sax != other.sax && (!other.spectator))
     else
     {
         event_user(0)
+        global.attackID = global.clientID
         global.checkID = other.myid
         global.checkX = other.x
         global.checkY = other.y

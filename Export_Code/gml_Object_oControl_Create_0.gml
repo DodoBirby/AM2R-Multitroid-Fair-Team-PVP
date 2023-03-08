@@ -269,7 +269,7 @@ if file_exists("lang/fonts/Glasstown_NBP.ttf")
 ini_close()
 global.fontVersion = font_add_sprite_ext(sVersionFont, "V.0123456789", 1, 1)
 global.am2r_version = "V1.5.2"
-global.multitroid_version = "FT1.6.2"
+global.multitroid_version = "FT1.6.3"
 global.gamestarted = 0
 global.wave_height = 1
 global.sand_map = ds_map_create()
@@ -480,5 +480,7 @@ global.saveStationCooldown = 0
 global.hitBySuper = 0
 global.MetCount = 41
 global.freeForAll = 0
+global.killedBy = 0
+global.killMessages = 0
 reset_map()
 load_character_vars()

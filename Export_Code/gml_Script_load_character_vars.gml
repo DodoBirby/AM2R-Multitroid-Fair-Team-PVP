@@ -1,4 +1,5 @@
 var i, f;
+global.killedBy = 0
 global.morphball = 1
 global.jumpball = 0
 global.powergrip = 1
