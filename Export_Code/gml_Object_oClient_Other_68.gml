@@ -1,4 +1,4 @@
-var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, playerState, combatState, freezeOff, checkDir, clientSBall, canFreeze, cantFreeze, checkID, attackID, killedBy, deadPlayer, deadName, killerName;
+var type_event, _buffer, bufferSize, bufferSizePacket, clientID, findsocket, i, arrList, f, v, ban, clientX, clientY, clientSprite, clientImage, clientA1, clientA1X, clientA1Y, clientA2, clientA2X, clientA2Y, clientA2A, clientMirror, clientArmmsl, clientRoom, clientName, clientBlend, clientFXTimer, clientRoomPrev, clientState, clientSAX, clientSpeedboost, clientSJBall, clientSJDir, clientSpeedCharge, clientPlayerHealth, clientSpectator, clientInvincible, clientMosaic, clientReform, clientVisible, arr, indexValue, clientMapX, clientMapY, sax, spectator, arrPosData, find, event, playerHealth, missiles, smissiles, pbombs, playerhealth, ping, item, metdead, team, spacejump, screwattack, spiderball, speedbooster, bomb, ibeam, wbeam, pbeam, sbeam, cbeam, otherItemArr, IDCheck, tempArr, ID, checkBeam, checkMissile, checkDamage, checkFreeze, newTeam, saxmode, lobbyLocked, samCount, getGravity, receivedPasswordHash, size, type, alignment, result, _seed, monstersLeft, monstersArea, itemArr, metdeadArr, eventArr, tileCount, tileX, tileY, tileData, itemstaken, maxmissiles, maxsmissiles, maxpbombs, maxhealth, etanks, mtanks, stanks, ptanks, time, dir, sprX, sprY, charge, arrDraw, arrID, bombX, bombY, currentWeapon, missileX, missileY, velX, velY, icemissiles, pbombX, pbombY, syncDiff, str, syncELM, otherAbsorbRelativeX, otherAbsorbRelativeY, otherAbsorbSpriteHeight, mapposx, mapposy, mirror, sentRoom, playerX, playerY, resend, receivedItem, etankCount, stankCount, ptankCount, mtankCount, receivedEvent, receivedMetdead, countArea, countLeft, part, j, receiveddmap, damageMultStr, damageMult, experimental, playerState, combatState, freezeOff, checkDir, clientSBall, canFreeze, cantFreeze, checkID, attackID, killedBy, deadPlayer, deadName, killerName, itemString, itemList, itemArray;
 disconnectTimer = 900
 if (!global.acceptPacket)
     exit
@@ -1608,6 +1608,215 @@ switch type_event
                 {
                     seq = instance_create(playerX, playerY, oDeathSequenceMulti)
                     seq.facing = mirror
+                }
+                break
+            case 34:
+                itemString = buffer_read(_buffer, buffer_string)
+                if global.looting
+                {
+                    itemString = strict_decompress(itemString)
+                    itemList = ds_list_create()
+                    ds_list_read(itemList, itemString)
+                    itemArray = ds_list_find_value(itemList, 0)
+                    ds_list_destroy(itemList)
+                    for (i = 0; i < array_length_1d(itemArray); i++)
+                    {
+                        if (itemArray[i] == 1 && global.item[i] == 0)
+                        {
+                            global.item[i] = 1
+                            if (i == 0)
+                            {
+                                global.bomb = 1
+                                global.bombPrev = global.bomb
+                                popup_text(((get_text("Items", "Bombs") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 1)
+                            {
+                                global.powergrip = 1
+                                global.powergripPrev = global.powergrip
+                                popup_text(((get_text("Items", "PowerGrip") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 2)
+                            {
+                                global.spiderball = 1
+                                global.spiderballPrev = global.spiderball
+                                popup_text(((get_text("Items", "SpiderBall") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 3)
+                            {
+                                global.jumpball = 1
+                                global.jumpballPrev = global.jumpball
+                                popup_text(((get_text("Items", "JumpBall") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 4)
+                            {
+                                global.hijump = 1
+                                global.hijumpPrev = global.hijump
+                                popup_text(((get_text("Items", "HiJump") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 5)
+                            {
+                                global.currentsuit = 1
+                                global.currentsuitPrev = global.currentsuit
+                                popup_text(((get_text("Items", "VariaSuit") + " ") + get_text("GlobalOptions", "Enabled")))
+                                if sfx_isplaying(sndSpinJump)
+                                    sfx_stop(sndSpinJump)
+                                if sfx_isplaying(sndSpaceJump)
+                                    sfx_stop(sndSpaceJump)
+                                if sfx_isplaying(sndScrewAttack)
+                                    sfx_stop(sndScrewAttack)
+                                if sfx_isplaying(sndSpaceScrewAttack)
+                                    sfx_stop(sndSpaceScrewAttack)
+                            }
+                            if (i == 6)
+                            {
+                                global.spacejump = 1
+                                global.spacejumpPrev = global.spacejump
+                                popup_text(((get_text("Items", "SpaceJump") + " ") + get_text("GlobalOptions", "Enabled")))
+                                if sfx_isplaying(sndSpinJump)
+                                    sfx_stop(sndSpinJump)
+                                if sfx_isplaying(sndSpaceJump)
+                                    sfx_stop(sndSpaceJump)
+                                if sfx_isplaying(sndScrewAttack)
+                                    sfx_stop(sndScrewAttack)
+                                if sfx_isplaying(sndSpaceScrewAttack)
+                                    sfx_stop(sndSpaceScrewAttack)
+                            }
+                            if (i == 7)
+                            {
+                                global.speedbooster = 1
+                                global.speedboosterPrev = global.speedbooster
+                                popup_text(((get_text("Items", "SpeedBooster") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 8)
+                            {
+                                global.screwattack = 1
+                                global.screwattackPrev = global.screwattack
+                                popup_text(((get_text("Items", "ScrewAttack") + " ") + get_text("GlobalOptions", "Enabled")))
+                                if sfx_isplaying(sndSpinJump)
+                                    sfx_stop(sndSpinJump)
+                                if sfx_isplaying(sndSpaceJump)
+                                    sfx_stop(sndSpaceJump)
+                                if sfx_isplaying(sndScrewAttack)
+                                    sfx_stop(sndScrewAttack)
+                                if sfx_isplaying(sndSpaceScrewAttack)
+                                    sfx_stop(sndSpaceScrewAttack)
+                            }
+                            if (i == 9)
+                            {
+                                global.currentsuit = 2
+                                global.currentsuitPrev = global.currentsuit
+                                popup_text(((get_text("Items", "GravitySuit") + " ") + get_text("GlobalOptions", "Enabled")))
+                                if sfx_isplaying(sndSpinJump)
+                                    sfx_stop(sndSpinJump)
+                                if sfx_isplaying(sndSpaceJump)
+                                    sfx_stop(sndSpaceJump)
+                                if sfx_isplaying(sndScrewAttack)
+                                    sfx_stop(sndScrewAttack)
+                                if sfx_isplaying(sndSpaceScrewAttack)
+                                    sfx_stop(sndSpaceScrewAttack)
+                            }
+                            if (i == 10)
+                            {
+                                global.cbeam = 1
+                                global.cbeamPrev = global.cbeam
+                                popup_text(((get_text("Items", "ChargeBeam") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 11)
+                            {
+                                global.ibeam = 1
+                                global.ibeamPrev = global.ibeam
+                                popup_text(((get_text("Items", "IceBeam") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 12)
+                            {
+                                global.wbeam = 1
+                                global.wbeamPrev = global.wbeam
+                                popup_text(((get_text("Items", "WaveBeam") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 13)
+                            {
+                                global.sbeam = 1
+                                global.sbeamPrev = global.sbeam
+                                popup_text(((get_text("Items", "SpazerBeam") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                            if (i == 14)
+                            {
+                                global.pbeam = 1
+                                global.pbeamPrev = global.pbeam
+                                popup_text(((get_text("Items", "PlasmaBeam") + " ") + get_text("GlobalOptions", "Enabled")))
+                            }
+                        }
+                    }
+                    etankCount = 0
+                    for (i = 0; i < array_length_1d(global.item); i++)
+                    {
+                        if (i == 50 || i == 103 || i == 108 || i == 157 || i == 158 || i == 200 || i == 201 || i == 251 || i == 254 || i == 306)
+                        {
+                            if (global.item[i] == 1)
+                                etankCount++
+                        }
+                    }
+                    if (etankCount != global.etanks)
+                    {
+                        global.etanks = etankCount
+                        global.maxhealth = ((99 + (100 * global.etanks)) * oControl.mod_etankhealthmult)
+                        global.playerhealth = global.maxhealth
+                    }
+                    stankCount = 0
+                    for (i = 0; i < array_length_1d(global.item); i++)
+                    {
+                        if (i == 51 || i == 110 || i == 162 || i == 206 || i == 207 || i == 209 || i == 215 || i == 256 || i == 300 || i == 305)
+                        {
+                            if (global.item[i] == 1)
+                                stankCount++
+                        }
+                    }
+                    if (stankCount != global.stanks)
+                    {
+                        global.stanks = stankCount
+                        if (global.difficulty < 2)
+                            global.maxsmissiles = (2 * global.stanks)
+                        if (global.difficulty == 2)
+                            global.maxsmissiles = (1 * global.stanks)
+                        global.smissiles = global.maxsmissiles
+                    }
+                    ptankCount = 0
+                    for (i = 0; i < array_length_1d(global.item); i++)
+                    {
+                        if (i == 58 || i == 59 || i == 112 || i == 160 || i == 212 || i == 213 || i == 253 || i == 258 || i == 301 || i == 302)
+                        {
+                            if (global.item[i] == 1)
+                                ptankCount++
+                        }
+                    }
+                    if (ptankCount != global.ptanks)
+                    {
+                        global.ptanks = ptankCount
+                        if (global.difficulty < 2)
+                            global.maxpbombs = (2 * global.ptanks)
+                        if (global.difficulty == 2)
+                            global.maxpbombs = (1 * global.ptanks)
+                        global.pbombs = global.maxpbombs
+                    }
+                    mtankCount = 0
+                    for (i = 0; i < array_length_1d(global.item); i++)
+                    {
+                        if (i == 52 || i == 53 || i == 54 || i == 55 || i == 56 || i == 57 || i == 60 || i == 100 || i == 101 || i == 102 || i == 104 || i == 105 || i == 106 || i == 107 || i == 109 || i == 111 || i == 150 || i == 151 || i == 152 || i == 153 || i == 154 || i == 155 || i == 156 || i == 159 || i == 161 || i == 163 || i == 202 || i == 203 || i == 204 || i == 205 || i == 208 || i == 210 || i == 211 || i == 214 || i == 250 || i == 252 || i == 255 || i == 257 || i == 259 || i == 303 || i == 304 || i == 307 || i == 308 || i == 309)
+                        {
+                            if (global.item[i] == 1)
+                                mtankCount++
+                        }
+                    }
+                    if (mtankCount != global.mtanks)
+                    {
+                        global.mtanks = mtankCount
+                        if (global.difficulty < 2)
+                            global.maxmissiles = (oControl.mod_Mstartingcount + (5 * global.mtanks))
+                        if (global.difficulty == 2)
+                            global.maxmissiles = (oControl.mod_Mstartingcount + (2 * global.mtanks))
+                        global.missiles = global.maxmissiles
+                    }
                 }
                 break
             case 50:

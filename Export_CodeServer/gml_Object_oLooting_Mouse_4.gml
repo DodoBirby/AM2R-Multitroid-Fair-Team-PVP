@@ -1,0 +1,1 @@
+global.looting = (!global.looting)

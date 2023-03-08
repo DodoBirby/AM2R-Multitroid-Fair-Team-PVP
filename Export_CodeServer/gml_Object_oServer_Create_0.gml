@@ -87,3 +87,4 @@ global.doomstarted = 0
 global.juggActive = 0
 global.totalItemCount = 0
 global.killMessages = 0
+global.looting = 0

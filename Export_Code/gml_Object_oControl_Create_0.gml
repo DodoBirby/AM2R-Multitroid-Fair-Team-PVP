@@ -482,5 +482,6 @@ global.MetCount = 41
 global.freeForAll = 0
 global.killedBy = 0
 global.killMessages = 0
+global.looting = 0
 reset_map()
 load_character_vars()
