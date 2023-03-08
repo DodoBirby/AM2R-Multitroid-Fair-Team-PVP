@@ -89,6 +89,7 @@ else
     global.roomsSinceLastSpawn = 0
     global.ingame = 1
     global.newgame = 0
+    global.killedBy = 0
     room_change(global.start_room, 1)
 }
 if instance_exists(oClient)

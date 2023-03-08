@@ -1,6 +1,7 @@
 var size, type, alignment, bufferSize, result;
 if global.spectator
     exit
+global.killedBy = global.otherID
 size = 1024
 type = buffer_grow
 alignment = 1

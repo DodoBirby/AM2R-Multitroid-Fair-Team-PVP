@@ -1,6 +1,7 @@
 if (myid != other.myid && sax != other.sax && (!other.spectator))
 {
     global.showHealthIndicatorsTimer = 900
+    global.attackID = global.clientID
     global.checkID = other.myid
     global.checkX = other.x
     global.checkY = other.y
