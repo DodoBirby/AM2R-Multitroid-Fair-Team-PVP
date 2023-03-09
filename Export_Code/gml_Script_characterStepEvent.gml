@@ -3264,31 +3264,6 @@ if (monster_drain > 0)
         else
             global.playerhealth -= (global.mod_monstersdrainGS * 4)
     }
-    if global.sax
-    {
-        if (global.currentsuit == 0 && oControl.mod_monstersextreme == 0)
-            global.playerhealth -= (global.mod_monstersdrainPS * 2)
-        else if (global.currentsuit == 0 && oControl.mod_monstersextreme != 0)
-            global.playerhealth -= (global.mod_monstersdrainPS * 4)
-        if (global.currentsuit == 1 && oControl.mod_monstersextreme == 0)
-            global.playerhealth -= (global.mod_monstersdrainVS * 2)
-        else if (global.currentsuit == 1 && oControl.mod_monstersextreme != 0)
-            global.playerhealth -= (global.mod_monstersdrainVS * 4)
-        if (global.currentsuit == 2 && oControl.mod_monstersextreme == 0)
-        {
-            if (global.item[5] == 0)
-                global.playerhealth -= (global.mod_monstersdrainVS * 2)
-            else
-                global.playerhealth -= (global.mod_monstersdrainGS * 2)
-        }
-        else if (global.currentsuit == 2 && oControl.mod_monstersextreme != 0)
-        {
-            if (global.item[5] == 0)
-                global.playerhealth -= (global.mod_monstersdrainVS * 4)
-            else
-                global.playerhealth -= (global.mod_monstersdrainGS * 4)
-        }
-    }
     if (global.playerhealth <= 0)
     {
         with (oControl)
