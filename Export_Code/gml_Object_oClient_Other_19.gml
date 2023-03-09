@@ -6,6 +6,7 @@ if global.looting
     ds_list_set(itemList, 0, global.item)
     itemString = ds_list_write(itemList)
     itemString = strict_compress(itemString)
+    ds_list_destroy(itemList)
 }
 size = 1024
 type = buffer_grow
@@ -35,4 +36,3 @@ buffer_write(buffer11, buffer_u8, global.clientID)
 buffer_write(buffer11, buffer_string, itemString)
 result = network_send_packet(socket, buffer11, buffer_tell(buffer11))
 buffer_delete(buffer11)
-ds_list_destroy(itemList)
